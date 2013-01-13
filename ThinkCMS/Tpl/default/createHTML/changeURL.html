@@ -1,0 +1,11 @@
+<script src="http://js.kx168.cn/jquery-1.4.2.min.js"></script>
+<script lang="javascript" type="text/javascript">
+    function getUrl(page,totalpage){
+        $.get("http://www.kx168.cn/index.php/createHTML/ch/page/" + page + "/total/" + totalpage,function(result){
+            document.write('正在执行第' + (page + 1) + '页，共' + totalpage + '页<br/>');
+            if(result == 'OK'){
+                getUrl(page+1,totalpage);
+            }
+        });}
+    getUrl({$page},{$totalPage});
+</script>

@@ -1,0 +1,278 @@
+<?php if (!defined('THINK_PATH')) exit();?><script type="text/javascript" src="__PUBLIC__/ui/plugins/jquery.iColorPicker.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/edit/editor_all.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/edit/editor_config.js"></script>
+<form method="post" action="__URL__/save" id="articleDataTableForm" name="articleDataTableForm">
+    <div id="articleListingTables" class="easyui-tabs" data-options="height:($('#window-Article').height()-35)">  
+        <div id="baseInfoDiv" title="基本信息" style="padding:20px;height: 1000px;" data-options="iconCls:'icon-tabicons54'"> 
+            <table cellpadding="2" cellspacing="5">
+                <tr><td width="90" height="28" align="center">
+                        栏目名称：
+                    </td><td width="390"><select class="easyui-combotree" name="catidview" id="catidview" multiple style="width:270px;"></select><input type="hidden" value="" name="catid" id="catid" />
+                        <input type="hidden" value="<?php echo ($vo["id"]); ?>" name="id" id="id" /></td>
+                    <td></td>
+                    <td width="390">&nbsp;</td>
+                </tr>
+                <tr><td height="28" align="center">标  &nbsp;&nbsp;&nbsp;题：
+                    </td><td>
+                        <input name="title" id="title" class="easyui-validatebox" type="text" size="45" value="<?php echo ($vo["title"]); ?>" required="true" validType="length[5,80]" invalidMessage="请确认填写5-80个字以内！" missingMessage="填写5-80个字以内" style="width:250px;" /><input id="color" name="color" type="hidden" value="" class="iColorPicker"  viewInput="title" /><input type="hidden" name="bold" id="bold" value="0" /><span id="titleFontBold" class="icon-tabicons443" style="width:25px; padding-left:14px; margin-left:5px; height:20px; cursor:pointer">加粗</span>
+                    </td>
+                    <td></td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr><td height="28" align="center">关键词：
+                    </td><td>
+                        <input name="keywords" id="keywords" class="easyui-validatebox" type="text" size="45" value="<?php echo ($vo["keywords"]); ?>" required="true" validType="length[1,58]" missingMessage="填写1-58个字以内"  invalidMessage="请确认填写1-58个字以内！" />
+                    </td>
+                    <td></td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td height="28" align="center">标题图片：</td>
+                    <td><input name="thumb" id="thumb" class="easyui-validatebox" type="text" size="45" value="<?php echo ($vo["thumb"]); ?>" />
+                        <a id="myEditorImagesss" onclick="upImage();" href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-tabicons163'">上传</a></td>
+                    <td></td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td height="28" align="center">来  &nbsp;&nbsp;源：</td>
+                    <td><input name="copyfrom" id="copyfrom" class="easyui-validatebox" type="text" size="45" value="<?php echo ($vo["copyfrom"]); ?>" /></td>
+                    <td></td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td align="center">作&nbsp;&nbsp;&nbsp;者：</td>
+                    <td><input name="username" id="username" class="easyui-validatebox" type="text" size="45" value="<?php echo ($vo["username"]); ?>" /></td>
+                    <td></td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td height="28" align="center">发布时间：</td>
+                    <td><input class="easyui-datetimebox" name="inputtime" data-options="required:true" value="<?php echo (date('Y-m-d H:i:s',$vo["inputtime"])); ?>" style="width:150px"></td>
+                    <td></td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td height="28" align="center">更新时间：</td>
+                    <td><input name="updatetime" class="easyui-datetimebox" id="updatetime" style="width:150px" value="<?php echo (date('Y-m-d H:i:s',$vo["updatetime"])); ?>" data-options="required:true" /></td>
+                    <td></td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td height="28" align="center"> 状  &nbsp;&nbsp;&nbsp;态 ：</td>
+                    <td><select id="status" name="status" style="width:100px;">  
+                            <option value="0" <?php if(($vo["status"]) == "0"): ?>selected="selected"<?php endif; ?>>退稿</option>                    
+                            <option value="50" <?php if(($vo["status"]) == "50"): ?>selected="selected"<?php endif; ?>>存草稿箱</option>  
+                            <option value="99" <?php if(($vo["status"]) == "99"): ?>selected="selected"<?php endif; ?>>立即发布</option>
+                        </select></td>
+                    <td></td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td align="center">点击数：</td>
+                    <td><input name="hits" id="hits" class="easyui-validatebox" type="text" size="45" value="<?php echo ($vo["hits"]); ?>" /></td>
+                    <td></td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td align="center">推 荐 位：</td>
+                    <td><?php if(is_array($position)): $pk = 0; $__LIST__ = $position;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$pos): $mod = ($pk % 2 );++$pk;?><input name="position[]" type="checkbox" id="pos_<?php echo ($pk); ?>" value="<?php echo ($pos["id"]); ?>" 
+                                                                      <?php if($vo["position"][$pos["id"]] == true): ?>checked="checked"<?php endif; ?>>
+                    <label for="pos_<?php echo ($pk); ?>"><?php echo ($pos["posiname"]); ?></label>&nbsp;<?php endforeach; endif; else: echo "" ;endif; ?></td>
+                <td></td>
+                <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td align="center"> 阅读权限 ：</td>
+                    <td>&nbsp;</td>
+                    <td></td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td height="28" align="center">外部链接：</td>
+                    <td>&nbsp;</td>
+                    <td></td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td height="28" align="center"> 允许评论：</td>
+                    <td>&nbsp;</td>
+                    <td></td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td height="28" align="center"> 阅读收费：</td>
+                    <td>&nbsp;</td>
+                    <td></td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td height="28" align="center">&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td></td>
+                    <td>&nbsp;</td>
+                </tr>
+            </table>  
+        </div>  
+        <div id="contentInfoDiv" title="文章内容" iconCls="icon-tabicons286">
+            <div id="baseInfoDiv" class="easyui-panel" title="内容相关设置"  style="height:212px;margin: 10px;"  data-options="iconCls:'icon-tabicons462',collapsible:true">
+                <table cellpadding="2" cellspacing="5">
+
+                    <tr>
+                        <td width="160" height="28" align="right">分页方式： </td>
+                        <td width="390"><select id="paginationtype" name="paginationtype" style="width:100px;">  
+                                <option value="0" <?php if(($vo["paginationtype"]) == "0"): ?>selected="selected"<?php endif; ?>>不分页</option>                    
+                                <option value="1" <?php if(($vo["paginationtype"]) == "1"): ?>selected="selected"<?php endif; ?>>自动分页</option>  
+                                <option value="2" <?php if(($vo["paginationtype"]) == "2"): ?>selected="selected"<?php endif; ?>>手动分页</option>
+                            </select>
+                            <div id="paginationDiv" style="display: <?php if(($vo["paginationtype"]) == "1"): ?>inline<?php else: ?>none<?php endif; ?>">
+                                <input type="text" name="maxcharperpage" value="<?php echo ($vo["maxcharperpage"]); ?>" size="10" id="maxcharperpage" />
+                                字符数（包含HTML标记）</div></td>
+                    </tr>
+                    <tr>
+                        <td height="28" align="right">自动截取至摘要：</td>
+                        <td><div id="add_introduce_view" class="icon-on" style="cursor:pointer; display:inline-block; margin-bottom:-4px;"></div>
+                            <input name="add_introduce" id="add_introduce" type="hidden" value="1" />
+                            <div id="introcude_length_view" style="display:inline"><label>截取内容前<input type="text" id="introcude_length" name="introcude_length" value="200" size="3" />字符至摘要</label></div></td>
+                    </tr>
+                    <tr>
+                        <td height="28" align="right">自动截取至标题图片：</td>
+                        <td><div id="auto_thumb_view" class="icon-off" style="cursor:pointer; display:inline-block; margin-bottom:-4px;"></div>
+                            <input name="auto_thumb" id="auto_thumb" type="hidden" value="0" />
+                            <div id="auto_thumb_no_view" style="display:none"><label>截取第<input type="text" id="auto_thumb_no" name="auto_thumb_no" value="1" size="2" />张图片作为标题图片</label><font color="#FF0000">（使用此功能请先清除已设置的标题图片！）</font></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td height="28" align="right">摘  &nbsp;&nbsp;要： </td>
+                        <td><textarea name="description" id="description" class="easyui-validatebox" style="width: 270px;height:50px;"  required="true" validtype="length[10,250]" invalidmessage="请确认填写10-250个字以内！" missingmessage="填写10-250个字以内"><?php echo ($vo["description"]); ?></textarea></td>
+                    </tr>
+                </table>
+            </div>
+            <script type="text/plain" id="content" name="content" style="margin: 10px;">
+                <?php echo ($vo["content"]); ?>
+            </script>
+        </div> 
+        <div id="relationInfoDiv" title="关联文章设置" iconCls="icon-tabicons42">
+            <table id="relation" toolbar="#dataTable-toolbar" style="width:auto;height:auto;margin:10px;"><thead>
+                    <tr>
+                        <th data-options="field:'id',width:50,sortable:true,align:'center',hidden:true">ID</th>
+                        <th data-options="field:'title',width:500,sortable:true,align:'center'">文章标题</th>
+                    </tr>
+                </thead></table>
+
+            <div id="dataTable-toolbar" class="datagrid-toolbar">
+                <a href="javascript:void(0)" onClick="javascript:addRelationOperation();" id="relationBtnadd" class="easyui-linkbutton" iconcls="icon-tabicons40" plain="true" style="float:left;">添加关联文章</a>
+                <div class="datagrid-btn-separator"></div>
+                <a href="javascript:void(0)" onClick="javascript:doubleRelationOperation();" id="relationBtndouble" class="easyui-linkbutton" iconcls="icon-tabicons46" plain="true" style="float:left;">建立双向关联</a>
+                <div class="datagrid-btn-separator"></div>
+                <a href="javascript:void(0)" onClick="javascript:canceRelationOperation();" id="relationBtncancel" class="easyui-linkbutton" iconcls="icon-tabicons260" plain="true" style="float:left;">撤消关联</a>
+            </div>
+        </div>
+    </div>
+</form>
+<script type="text/javascript">
+    $('#catidview').combotree({
+        url:U('Article/listing',{
+            act:'listTree'
+        }),
+        cascadeCheck:true,
+        valueField:'id',
+        textField:'text',
+        onChange:function(){
+            $('#catid').val($('#catidview').combotree('getValues'));
+        }
+    });
+    
+    //标题图片
+    $('#color').change(function(){alert($('#color').val());
+        $('#title').css('color:' , $('#color').val());
+    });
+    
+    /*
+     * 缩略图
+     */
+    var myEditorImage;
+    var d;
+    function upImage(){
+        d = myEditorImage.getDialog("insertimage");
+        d.render();
+        d.open();
+    }
+    myEditorImage= new UE.ui.Editor();
+    myEditorImage.render('myEditorImage');
+    myEditorImage.ready(function(){
+        myEditorImage.setDisabled();
+        myEditorImage.hide();//隐藏UE框体
+        myEditorImage.addListener('beforeInsertImage',function(t,arg){
+            $("#thumb").attr("value", arg[0].src);
+        });
+    });
+    
+    /*
+     * 内容编辑器
+     */
+    $(function(){
+        UE.getEditor('content');
+    });
+    //摘要
+    $('#description').css('width',($('#window-Article').width() - 230));
+    //标题加粗
+    $('#titleFontBold').click(function(){
+        if($('#title').css('font-weight') == 'bold'){
+            $('#title').css('font-weight','');
+            $('#bold').val(0);
+        }else{
+            $('#title').css('font-weight','bold');
+            $('#bold').val(1);
+        }
+    });
+    //分页方式
+    $('#paginationtype').change(function(){
+        if((this).value == 1){
+            $('#paginationDiv').css('display','inline');
+        }else{
+            $('#paginationDiv').hide();
+        }
+    });
+    //截取内容至摘要
+    $('#add_introduce_view').click(function(){
+        if($('#add_introduce_view').attr('class') == 'icon-on'){
+            $('#add_introduce').val(0);
+            $('#introcude_length_view').hide();
+            $('#add_introduce_view').attr('class','icon-off');
+        }else{
+            $('#add_introduce').val(1);
+            $('#introcude_length_view').css('display','inline');
+            $('#add_introduce_view').attr('class','icon-on');
+        }
+    });
+    //截取内容至标题图片
+    $('#auto_thumb_view').click(function(){
+        if($('#auto_thumb_view').attr('class') == 'icon-on'){
+            $('#auto_thumb').val(0);
+            $('#auto_thumb_no_view').hide();
+            $('#auto_thumb_view').attr('class','icon-off');
+        }else{
+            $('#auto_thumb').val(1);
+            $('#auto_thumb_no_view').css('display','inline');
+            $('#auto_thumb_view').attr('class','icon-on');
+        }
+    });
+    $("#relation").datagrid({
+        url:U('Article/relation',{
+            sourceId:<?php echo (($vo["id"])?($vo["id"]):0); ?>
+            }),
+            fitColumns:true,
+            striped:true,
+            rownumbers:true,
+            showFooter:true,
+            pagination:true,
+            pageNumber:<?php echo ($page["currentPage"]); ?>,
+            pageSize:<?php echo ($page["numPerPage"]); ?>,
+            sortName: '<?php echo ($page["orderField"]); ?>',
+            sortOrder: '<?php echo ($page["orderDirection"]); ?>',
+            idField:'id',
+            frozenColumns:[[
+                    {field:'ck',checkbox:true}
+                ]]
+        });  
+</script>

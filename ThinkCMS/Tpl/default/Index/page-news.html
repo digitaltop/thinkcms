@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+    <html xmlns:wb="http://open.weibo.com/wb">
+        <head>
+            <title><if condition="isset($PAGESEO['title']) && !empty($PAGESEO['title'])">{$PAGESEO['title']}</if><if condition="isset($PAGESEO['cate_title']) && !empty($PAGESEO['cate_title'])">{$PAGESEO[cate_title]}</if>{$SEO['site_title']}</title>
+            <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+                <meta name="keywords" content="<if condition="isset($PAGESEO['keywords']) && !empty($PAGESEO['keywords'])">{$PAGESEO['keywords']}<else />{$SEO['keywords']}</if>">
+                    <meta name="description" content="<if condition="isset($PAGESEO['description']) && !empty($PAGESEO['description'])">{$PAGESEO['description']}<else />{$SEO['description']}</if>">
+                        <script src="{:C('JS_PATH')}jquery-1.4.2.min.js"></script>
+                        <script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js?appkey=67225079" type="text/javascript" charset="utf-8"></script>
+                        <link href="{:C('CSS_PATH')}showcontent.css" rel="stylesheet" type="text/css" />
+                        </head>
+                        <body>
+                            <div class="main_div">{:getAd('ad_showcontent_top_'.$catid)}
+                                <div class="top_nav">
+                                    <volist name="topNav" id="vo" key="k"><eq name="k" value="11"><a href="#" class="top_nav_more">更多</a><div class="top_nav_cover"><div class="top_nav_cover_con"></eq>
+                                                    <a href="{$vo.url}">{$vo.catname}</a><lt name="k" value="11">|</lt>
+                                                    </volist><div class="clr"></div></div></div>
+                                            </div>
+                                            <div class="header">
+                                                <div class="logo"><a href="{:C('BASE_URL')}" title="{:C('APP_TITLE')}"><img src="{:C('IMG_PATH')}logo.png" style="margin-top:10px;" alt="{:C('APP_TITLE')}" /></a></div>
+                                                <div class="top_search">
+                                                    <div class="t_s_hotkey"><volist name="topSearch" id="vo"><a href="{$vo.url}">{$vo.catname}</a></volist></div>
+                                                    <div class="t_s_con"><form action="{:U('Index/search')}" method="get" target="_blank"><input name="" type="text"  class="top_saerch_inp" autocomplete="off" x-webkit-grammar="builtin:translate" x-webkit-speech="" /><input type="submit" class="top_search_sub" value="  " />
+                                                        </form></div>
+                                                </div>
+                                                <div class="top_ad">
+                                                    <div class="top_ad_con" id="showcontent_search_1">{:getAd('ad_showcontent_search_'.$catid)}</div>
+                                                </div>
+                                                <div class="clr"></div>
+                                            </div>
+                                            <div class="nav">
+                                                <div class="nav_li"><a href="{:C('BASE_URL')}" class="act">首页</a></div>
+                                                <volist name="treeMenu" id="vo">
+                                                    <div class="nav_li">
+                                                        <div class="fl_nav_hover">
+                                                            <div class="fl_nav_hover_title"><a href="{$vo.url}" target="_blank">{$vo.catname}</a></div>
+                                                            <div class="fl_nav_hover_con"<notempty name="vo.childTree"> style="background-color:#517597;"</notempty>><ul>
+                                                                    <volist name="vo['childTree']" id="sub">
+                                                                        <li><a href="{$sub.url}" title="{$sub.catname}">{$sub.catname}</a></li>
+                                                                    </volist>
+                                                                    <div class="clr"></div>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                        <a href="{$vo.url}" target="_blank">{$vo.catname}</a></div>
+                                                </volist>
+                                            </div>
+                                            <div class="main_con">
+
+                                                <div class="main_1">
+                                                    <div class="main_tlad" id="showcontent_nav_1">{:getAd('ad_showcontent_nav_'.$catid)}</div>
+                                                    <div class="main_1_left">
+                                                        <div class="listpage_place"><strong>你的位置：</strong> <a href="{:C('BASE_URL')}">首页</a> <span> &gt; </span>{:catpos($catid)} 正文</div>
+                                                        <div class="listpage_content viewcontent">
+                                                            <div class="view_title">{$news.title}</div>
+                                                            <div class="view_info">{$news.inputtime|date='Y年m月d日 H:i:s',###}　来源：{$news.copyfrom}&nbsp;&nbsp;<div style="margin-left: 526px; margin-top: -23px;"><include file="Public:baidushare_small"/></div></div>
+                                                            <div class="summary" id="showcontent_text">{:getAd('ad_showcontent_text_'.$catid)}</div>
+                                                            <notempty name="news.description"><div class="summary">{$news.description}</div></notempty>
+                                                            <div class="view_con">
+                                                                <div class="bdfloat" id="showcontent_bdfloat" style="float:right; margin-left: 10px; margin-top: 10px; width: 300px; height: 250px; overflow:hidden">{:getAd('ad_showcontent_bdfloat_'.$catid)}</div>
+                                                                {$news.content}
+                                                            </div><if condition="!empty($news['titles']) || !empty($news['pages'])">
+                                                                <fieldset>
+                                                                    <legend class="f14">本文导航</legend><ul class="list blue row-2">
+                                                                        <empty name="news.titles">{$news.pages}<else /><volist name="news.titles" id="sub" key="k">
+                                                                                <li>{$k}、<a href="{$sub.url}">{$sub.title}</a></li>
+                                                                            </volist></empty></ul>
+                                                                </fieldset>
+                                                            </if>
+                                                            <div class="view_share"><noempty name="news.keywords">相关热词搜索：<volist name="news.keywords" id="sub">&nbsp;<a href="{:U('Content/Tag',array('catid'=>$catid,'tag'=>urlencode($sub)))}" class="blue">{$sub}</a></volist></noempty>
+                                                                <div class="bshare-custom" style="margin-left: 504px; margin-top: -36px;"><include file="Public:baidushare_big" /></div>
+                                                            </div>
+                                                            <div class="view_weibo"><span><wb:follow-button uid="1642909335" type="red_1" width="63" height="24"></wb:follow-button></span>微博关注： <a href="http://www.weibo.com/u/2884465240" target="_blank" hidefocus>开心健康网</a></div>
+                                                            <div class="view_other">
+                                                                <div class="view_other_title">相关阅读</div>
+                                                                <ul style="width:540px; float:left"><volist name="news.relation" id="sub">
+                                                                        <li><a href="{$sub.url}" target="_blank" title="{$sub.title}">{$sub.title}</a>{$sub.inputtime|date='Y年m月d日',###}</li>
+                                                                    </volist>
+                                                                </ul><div style="width:210; height:210px; float:left; margin-top:-30px;" id="showcontent_relation">{:getAd('ad_showcontent_relation_'.$catid)}</div><div class="clr"></div>
+                                                            </div>
+                                                            <div class="view_taobaoad" id="showcontent_relation_tbad">{:getAd('ad_showcontent_relation_tbad_'.$catid)}</div>
+                                                            <!--分类信息-->
+                                                            <div class="view_fl" id="view_fl_1">
+                                                                <div class="view_fl_title"><volist name="catNews" id="vo"><a href="{$vo.url}" target="_blank">{$vo.catname}</a></volist></div>
+                                                                <div class="view_fl_con"><volist name="catNews" id="vo"><div class="viewflcon_list">{~$viewFlcon2='';}<volist name="vo.catNews" id="sub" key="k">
+                                                                                <eq name="k" value="1">
+                                                                                    <div class="viewflcon_1">
+                                                                                        <div class="vfc_ab_pic">
+                                                                                            <div class="vfc_ad_pic_text"><a href="{$sub.url}" target="_blank"{$sub.style|title_style=###} title="{$sub.title}">{$sub.title|str_cut=###, 45,''}</a></div>
+                                                                                            <div class="vfc_ad_pic_cover"></div>
+                                                                                            <div class="vfc_ab_pic_pic"><a href="{$sub.url}" target="_blank" title="{$sub.title}"><img src="{$sub.thumb|thumb=###, 115, 140}" width="115" height="140" alt="{$sub.title}" /></a></div>
+                                                                                        </div>
+                                                                                        <ul class="newslistul"><else /><in name="k" value="2,3,4,5,6,7,8,9,10,11">
+                                                                                                <eq name="k" value="6"><div class="blankdiv1"></div></eq>
+                                                                                                <li <eq name="k" value="2"> class="btitle"</eq>><a href="{$sub.url}" target="_blank"{$sub.style|title_style=###} title="{$sub.title}">{$sub.title}</a></li>
+                                                                                                <else />
+                                                                                                <php>$viewFlcon2.='<div class="viewflcon_2_1"><div class="vfc_2_1_pic"><a href="'.$sub['url'].'" target="_blank"'.title_style($sub['style']).' title="'.$sub['title'].'"><img src="'.thumb($sub['thumb'], 80, 110).'" width="80" height="110" alt="'.$sub['title'].'" border="0" /></a></div><div class="vfc_2_1_text"><a href="'.$sub['url'].'" target="_blank" title="'.$sub['title'].'">'.str_cut($sub['title'],42,'').'</a><br />'.str_cut($sub['description'],66,'...').'</div><div class="clr"></div></div>';</php>
+                                                                                            </in></eq></volist>
+                                                                                        </ul>		
+                                                                                    </div><div class="viewflcon_2">{$viewFlcon2}</div>
+                                                                                    <div class="clr"></div>
+                                                                                </div></volist>
+
+                                                                        </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="main_1_right listpage_r">
+                                                            <div class="list_main">
+                                                                <div class="list_title"><span></span>焦点关注</div>
+                                                                <volist name="FocusList" id="vo" key="k"><eq name="k" value="1">
+                                                                        <div class="list_con"><div class="jd_pic"><a href="{$vo.url}" target="_blank" title="{$vo.title}"><img src="{$vo.thumb|thumb=###,80,90}" alt="{$vo.title}" width="80" height="90" border="0" /></a></div><div class="jd_picr"><a href="{$vo.url}" target="_blank" title="{$vo.title}"{$vo.style|title_style=###}>{$vo.title|str_cut=###,21,''}</a><br />{$vo.description|str_cut=###,105,'...'}</div><div class="clr xline"></div></div><div class="list_con"><ul class="newslistul">
+                                                                                <else />
+                                                                                <li><em>{$k-1}
+                                                                                    </em><a href="{$vo.url}" target="_blank" title="{$vo.title}"{$vo.style|title_style=###}>{$vo.title|str_cut=###,36,''}</a></li>
+                                                                                </eq></volist>
+                                                                            </ul>
+                                                                            <div class="clr xline"></div>
+                                                                        </div>
+                                                                        </div>
+                                                                        <div class="list_main">
+                                                                            <div class="list_title">合作广告</div>
+                                                                            <div class="list_con">
+                                                                                <div class="listright_ad"><php>for($i=1;$i<=10;$i++){</php>
+                                                                                    {:getAd('ad_showcontent_hit_'.$catid.'_'.$i)}
+                                                                                    <php>}</php></div>
+                                                                            </div>
+                                                                        </div>
+                                                                        </div>
+                                                                        <div class="clr"></div>
+                                                                        </div>		
+                                                                        </div>
+                                                                        <include file="Public:footer"/>
+                                                                        </div>
+                                                                        {:getAd('ad_showcontent_couplet_'.$catid)}
+                                                                        <script language="javascript" src="http://js.kx168.cn/showcontent.js"></script>
+                                                                        </body>
+                                                                        </html>

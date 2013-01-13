@@ -1,0 +1,20 @@
+<div style="padding:10px;">
+    <form method="post" action="__URL__/save" id="dataTableForm">
+        <table class="easyui-propertygri">
+            <tr><td height="28">
+                    模块名称：
+                </td><td><input name="modelname" class="easyui-validatebox" type="text" size="25" value="{$vo.modelname}" required="true" validType="length[3,10]" invalidMessage="请确认填写3-10个字以内！" missingMessage="填写3-10个字以内" />
+                </td></tr>
+            <tr><td height="28">数据表名：
+                </td><td>
+                    <input name="tablename" class="easyui-validatebox" type="text" size="25" value="{$vo.tablename}" required="true" validType="length[2,50]" invalidMessage="请确认填写2-50个字以内！" missingMessage="填写2-50个字以内" />
+                    <span class="unit">不需要输入前缀！</span>
+                </td></tr>
+            <tr><td height="28">备    注：
+                </td><td>
+                    <textarea name="description" cols="30" rows="2">{$vo.description}</textarea>
+                    <input type="hidden" name="modelid" value="{$vo.modelid}" />
+                </td></tr>
+            <tr><td></table>
+  </form>
+</div>

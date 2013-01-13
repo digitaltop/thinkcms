@@ -1,0 +1,35 @@
+<include file="Public:header" />
+<body>
+    <!--表单主体-->
+    <table id="listing" toolbar="#listing-toolbar" style="width:auto;height:auto"
+           data-options="method: 'post',
+           fitColumns: true,
+           striped:true,
+           nowrap:true,
+           rownumbers:true,
+           showFooter:true,
+           pagination:true,
+           pageNumber:{$page.currentPage},
+           pageSize:{$page.numPerPage},
+           idField: 'modeid',
+           sortName: '{$page.orderField}',
+           sortOrder: '{$page.orderDirection}',
+           frozenColumns:[[
+           {field:'ck',checkbox:true}
+           ]]">
+        <thead>
+            <tr>
+                <th data-options="field:'modeid',width:220,sortable:true,align:'center',hidden:true">模块标识</th>
+                <th data-options="field:'modelname',width:120,sortable:true,align:'center'">模块名称</th>
+                <th data-options="field:'description',width:500,sortable:true,align:'center'">描述</th>
+                <th data-options="field:'opt',width:180,align:'center',formatter:function(value,rowData,rowIndex){return operation(rowData.menu_id,rowIndex);}">操作</th>
+            </tr>
+        </thead>
+    </table>
+    <!--创建Toolbar-->
+    <div id="listing-toolbar" class="datagrid-toolbar">
+       <include file="Public:operation" />
+        <div style="margin:3px;">筛选：
+            <input id="searchBtn" class="easyui-searchbox" data-options="searcher:searchOperation,prompt:'请输入关键字'" />
+    </div>
+<include file="Public:footer" />

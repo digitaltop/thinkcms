@@ -1,0 +1,48 @@
+<div class="easyui-accordion" fit="true" border="false">
+    <!-- 循环菜单 -->
+    <volist name="rootTree" id="vo" key="k">
+        <script language="javascript">
+            $(function(){
+                $('#tree{$vo.model_name}{$vo.model_id}').tree({   
+                    checkbox: false,   
+                    url: U('Main/getUserMenus',{
+                        itemId:{$vo.model_id}
+                    }),
+                    onClick:function(node){
+                        if(node.attributes['children'] == 0){
+                            if(node.outurl){
+                                if(node.outurl.toLowerCase().indexOf('javascript')>-1){
+                                    node.outurl;
+                                    return;
+                                }else{
+                                    var tabPatch = node.outurl;
+                                }
+                            }else{
+                                var tId = node.id.split(':');
+                                var tabPatch = U(tId[0] + '/' + tId[1]);
+                            }
+                            addTab(node.text,tabPatch,node.iconCls);
+                        }else{
+                            return;
+                        }
+                    },
+                    onDblClick:function(node){
+                        if(node.attributes['children'] == 0){
+                            return;
+                        }else{
+                            $(this).tree('expand',node.target);
+                        }
+                    },
+                    onContextMenu: function(e, node){
+                        e.preventDefault();
+                    }
+                });
+            });
+        </script>
+        <div title="{$vo.model_title}" <neq name="vo['iconCls']" value="">data-options="plain:true,iconCls:'{$vo.iconCls}'"</neq> <eq name="k" value="1">selected="true" </eq> style="overflow:auto;">
+            <div class="nav-item">
+                <ul id="tree{$vo.model_name}{$vo.model_id}" class="easyui-tree"></ul>
+            </div>
+        </div>
+    </volist>
+</div>

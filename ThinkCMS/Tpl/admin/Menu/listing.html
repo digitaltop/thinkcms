@@ -1,0 +1,45 @@
+<include file="Public:header" />
+<body class="easyui-layout">
+	<div data-options="region:'west',split:true" title="菜单" style="width:210px;padding1:1px;overflow:hidden;">
+		<ul id="MenuTree"></ul>
+	</div>
+	<div data-options="region:'center'" style="overflow:hidden;">
+    <!--表单主体-->
+    <table id="menuListing" toolbar="#menuListing-toolbar" style="width:auto;height:auto"
+           data-options="method: 'post',
+           fitColumns: true,
+           striped:true,
+           nowrap:true,
+           rownumbers:true,
+           showFooter:true,
+           pagination:true,
+           pageNumber:{$page.currentPage},
+           pageSize:{$page.numPerPage},
+           idField: 'menu_id',
+           sortName: '{$page.orderField}',
+           sortOrder: '{$page.orderDirection}',
+           frozenColumns:[[
+           {field:'ck',checkbox:true}
+           ]]">
+        <thead>
+            <tr>
+                <th data-options="field:'menu_id',width:80,sortable:true,align:'center',hidden:true">ID</th>
+                <th data-options="field:'menu_name',width:120,sortable:true,align:'center'">菜单名称</th>
+                <th data-options="field:'menu_title',width:120,sortable:true,align:'center'">菜单标题</th>
+                <th data-options="field:'description',width:120,sortable:true,align:'center'">备注</th>
+                <th data-options="field:'status',width:60,sortable:true,align:'center',formatter:statusFormatter">是否启用</th>
+                <th data-options="field:'menu',width:60,sortable:true,align:'center',formatter:menuFormatter">是否生成菜单</th>
+                <th data-options="field:'permis',width:60,sortable:true,align:'center',formatter:permisFormatter">权限检查</th>
+                <th data-options="field:'opt',width:180,align:'center',formatter:function(value,rowData,rowIndex){return operation(rowData.menu_id,rowIndex);}">操作</th>
+            </tr>
+        </thead>
+    </table>
+    <!--创建Toolbar-->
+    <div id="menuListing-toolbar" class="datagrid-toolbar">
+       <include file="Public:operation" />
+       <if condition="checkSecurity($Think.session.USER_ID , 'Model', 'oneKeyToMeRole') eq true || $Think.session.USER_ID eq '1'"><a href="#" onClick="javascript:oneKeyToMeRole();" class="easyui-linkbutton" iconcls="icon-tabicons387" plain="true" style="float:left;">一键授权给自己</a><div class="datagrid-btn-separator"></div></if>
+        <div style="margin:5px; float:left">当前菜单：<span id="chooseThisParentName" style="font-size:14px; color:#FF0000; font-weight:bold">根菜单</span><input id="chooseThisParentId" style="display:none" value="0">
+                <input id="searchBtn" class="easyui-searchbox" data-options="searcher:searchOperation,prompt:'请输入关键字'" />
+            </div>
+    </div></div>
+<include file="Public:footer" />

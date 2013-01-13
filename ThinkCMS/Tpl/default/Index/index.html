@@ -1,0 +1,286 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <html xmlns:wb="http://open.weibo.com/wb">
+        <head>
+            <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+            <title><if condition="isset($PAGESEO['title']) && !empty($PAGESEO['title'])">{$PAGESEO['title']}</if><if condition="isset($PAGESEO['cate_title']) && !empty($PAGESEO['cate_title'])">{$PAGESEO[cate_title]}</if>{$SEO['site_title']}</title>
+            <meta name="keywords" content="<if condition="isset($PAGESEO['keywords']) && !empty($PAGESEO['keywords'])">{$PAGESEO['keywords']}<else />{$SEO['keywords']}</if>">
+                <meta name="description" content="<if condition="isset($PAGESEO['description']) && !empty($PAGESEO['description'])">{$PAGESEO['description']}<else />{$SEO['description']}</if>">
+                    <script src="{:C('JS_PATH')}jquery-1.4.2.min.js"></script>
+                    <script src="{:C('JS_PATH')}tabs.js"></script>
+                    <script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js?appkey=67225079" type="text/javascript" charset="utf-8"></script>
+                    <link href="{:C('CSS_PATH')}main.css" rel="stylesheet" type="text/css" />
+                    </head>
+                    <body>
+                        <div class="main_div">
+                            {:getAd('ad_index_top')}
+                            <div class="header">
+                                <div class="logo"><a href="{:C('BASE_URL')}" title="{:C('APP_TITLE')}"><img src="{:C('IMG_PATH')}logo.png" style="margin-top:16px;" alt="{:C('APP_TITLE')}" /></a></div>
+                                <div class="top_search">
+                                    <div class="t_s_hotkey"><volist name="topSearch" id="vo"><a href="{$vo.url}">{$vo.catname}</a></volist></div>
+                                    <div class="t_s_con"><form action="{:U('Index/search')}" method="get" target="_blank"><input name="" type="text"  class="top_saerch_inp" autocomplete="off" x-webkit-grammar="builtin:translate" x-webkit-speech="" /><input type="submit" class="top_search_sub" value="  " />
+                                        </form></div>
+                                </div>
+                                <div class="top_ad">
+                                    <div class="top_ad_con" id="460_60_1">{:getAd('ad_index_460_60_1')}</div>
+                                </div>
+                                <div class="clr"></div>
+                            </div>
+                            <div class="index_con">
+                                <div class="index_left">
+                                    <div class="i_l_menu">
+                                        <div class="i_l_menu_time" id="JsclientDate"></div>
+                                        <volist name="treeMenu" id="vo"><div class="lmenu_list">
+                                                <div class="lmenu_covre">
+                                                    <div class="lmenu_cover_left">
+                                                        <div class="lmenu_cover_left_cover"><a<neq name="vo['css']" value=""> class="{$vo.css}"</neq> href="{$vo.url}" target="_blank"{$vo.style|title_style=###}>{$vo.catname}</a></div>
+                                                    </div>
+                                                    <div class="lmenu_cover_right">
+                                                        <ul><volist name="vo.childTree" id="sub">
+                                                                <li><a<neq name="sub['css']" value=""> class="{$sub.css}"</neq> href="{$sub.url}" target="_blank"{$sub.style|title_style=###}>{$sub.catname}</a></li>
+                                                            </volist>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="clr"></div>
+                                                </div>
+                                                <div style="background-color:#{$vo.ico}" class="fd_icon">{$vo.shortname}</div><a<neq name="vo['css']" value=""> class="{$vo.css}"</neq> href="{$vo.url}" target="_blank"{$vo.style|title_style=###}>{$vo.catname}</a>
+                                            </div>
+                                        </volist>
+                                        <div class="lmenu_list">
+                                            <div class="lmenu_covre">
+                                                <div class="lmenu_cover_left">
+                                                    <div class="lmenu_cover_left_cover"><a href="http://jb.kx168.cn/" target="_blank">疾病板块</a></div>
+                                                </div>						
+                                                <div class="clr"></div>
+                                            </div>
+                                            <div style="background-color:#0d5cb5" class="fd_icon">病</div><a href="http://jb.kx168.cn/" target="_blank">疾病板块</a>
+                                        </div><div class="lmenu_list">
+                                            <div class="lmenu_covre">
+                                                <div class="lmenu_cover_left">
+                                                    <div class="lmenu_cover_left_cover"><a href="http://sh.kx168.cn/" target="_blank">生活健康板块</a></div>
+                                                </div>						
+                                                <div class="clr"></div>
+                                            </div>
+                                            <div style="background-color:#78b50d" class="fd_icon">健</div><a href="http://sh.kx168.cn/" target="_blank">生活健康板块</a>
+                                        </div>
+                                    </div>
+                                    <div class="i_l_ad" id="160_600_1" style="height:302px; overflow:hidden">{:getAd('ad_index_160_600_1')}</div>
+                                    <div class="i_l_ad" id="160_302_1" style="height:302px; overflow:hidden"><div class="tab" id="r_ad_tab1">
+                                            <div class="tab_title"><a href="http://test.kx168.cn/">健康自测&nbsp;</a><a href="http://zzk.kx168.cn/">&nbsp;健康自诊</a></div>
+                                            <div class="tab_con">
+                                                <div class="tab_list">
+                                                    <a href="http://test.39.net/test/5721.html" class="test1">BMI测试<br /><span class="gray">测您的标准体重</span></a>                	<a href="http://test.39.net/test/5712.html" class="test3">乙肝自测<br /><span class="gray">用化验结果自测</span></a>
+                                                    <a href="http://test.39.net/test/5719.html" class="test2">安全期自测<br /><span class="gray">女性安全期推算</span></a>
+                                                    <a href="http://test.39.net/test/5435.html" class="test4">智商测试<br /><span class="gray">测您的IQ有多高</span></a>
+                                                    <ul>
+                                                        {:getAd('ad_index_jkTest_text_1')}
+                                                    </ul>
+                                                </div>
+                                                <div class="tab_list">
+                                                    <ul class="bodybg">
+                                                        <li class="zz1"><a href="http://zzk.39.net/bw/toubu.html" title="头部症状">头部</a></li>
+                                                        <li class="zz2"><a href="http://zzk.39.net/bw/yan.html" title="眼部症状">眼部</a></li>
+                                                        <li class="zz3"><a href="http://zzk.39.net/bw/er.html" title="耳部症状">耳部</a></li>
+                                                        <li class="zz4"><a href="http://zzk.39.net/bw/kou.html" title="口腔症状">口腔</a></li>
+                                                        <li class="zz5"><a href="http://zzk.39.net/bw/bi.html" title="鼻子症状">鼻子</a></li>
+                                                        <li class="zz6"><a href="http://zzk.39.net/bw/jingbu.html" title="颈部症状">颈部</a></li>
+                                                        <li class="zz7"><a href="http://zzk.39.net/bw/xiongbu.html" title="胸部症状">胸部</a></li>
+                                                        <li class="zz8"><a href="http://zzk.39.net/bw/fubu.html" title="腹部症状">腹部</a></li>
+                                                        <li class="zz9"><a href="http://zzk.39.net/bw/sizhi.html" title="上肢症状">上肢</a></li>
+                                                        <li class="zz10"><a href="http://zzk.39.net/bw/pifu.html" title="皮肤症状">皮肤</a></li>
+                                                        <li class="zz11"><a href="http://zzk.39.net/bw/shengzhibuwei.html" title="生殖部位症状">生殖部位</a></li>
+                                                        <li class="zz12"><a href="http://zzk.39.net/bw/sizhi.html" title="下肢症状">下肢</a></li>
+                                                        <li class="zz13"><a href="http://zzk.39.net/bw/quanshen.html">全身症状</a></li>
+                                                    </ul>
+                                                    <ul>
+                                                        {:getAd('ad_index_jkTest_text_2')}
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div></div>
+                                    <div class="i_l_ad" id="138_292_1" style="height:302px; overflow:hidden"><div style="padding:9px 0 0 9px;">{:getAd('ad_index_138_292_1')}</div></div>
+                                    <div class="i_l_ad" id="160_600_2" style="height:302px; overflow:hidden">{:getAd('ad_index_160_600_4')}</div>
+                                    <div class="i_l_ad" id="160_600_5" style="height:302px; overflow:hidden">{:getAd('ad_index_160_600_5')}</div>
+                                </div>
+                                <div class="index_right">
+                                    <div class="i_r_1">
+                                        <div class="i_picnews">
+                                            <!--焦点图片内容 -->
+                                            <div class="i_picnews_pic" id="i_picnews_pic">
+                                                <ul class="slider1" >
+                                                    <volist name="positionPic" id="vo">
+                                                        <li><div class="licover"><a href="{$vo.url}" target="_blank"{$vo.style|title_style=###} editor="topimg" title="{$vo.description}">{$vo.description|str_cut=###,99,'...'}</a></div><a href="{$vo.url}" target="_blank"{$vo.style|title_style=###} title="{$vo.title}"><img src="{$vo.thumb|thumb=###,497,298}" alt="{$vo.title}" width="497" height="298" /></a></li>
+                                                    </volist>
+                                                </ul>
+                                            </div>					
+                                            <ul class="num1" >
+                                                <volist name="positionPic" id="vo">
+                                                    <li><div class="ip_li_pic"><img src="{$vo.thumb|thumb=###,80,33}" width="80" height="33" alt="{$vo.title}" /></div><div class="ip_li_text"><a target="_blank" href="{$vo.url}"{$vo.style|title_style=###} editor="subimg">{$vo.title|str_cut=###,45}</a></div></li>
+                                                </volist>
+                                            </ul>
+                                            <!--焦点图片内容 -->
+                                        </div>
+                                        <div class="i_weibo">
+                                            <div class="i_weibo_title"><span><wb:follow-button uid="2884465240" type="red_2" width="136" height="24" ></wb:follow-button></span><a href="http://www.weibo.com/u/2884465240" target="_blank" hidefocus>健康微博直击</a></div>
+                                            <div class="i_weibo_con"><wb:livestream color="C1CFDD,f0f0f0,444444,5093d5,ffffff,F4F9FF" titlebar="n" member="n" topic="%E5%BC%80%E5%BF%83~%E5%81%A5%E5%BA%B7~%E7%96%BE%E7%97%85~%E7%94%9F%E6%B4%BB|%E5%BC%80%E5%BF%83~%E5%81%A5%E5%BA%B7~%E7%96%BE%E7%97%85~%E7%94%9F%E6%B4%BB" width="auto" height="377" ></wb:livestream></div>
+                                        </div>
+                                        <div class="clr"></div>
+                                    </div>
+                                    <div class="i_r_1">
+                                        <div class="i_r_list">
+                                            <div class="list_main" id="tab1">
+                                                <div class="list_title"><a>健康头条</a><a>健康排行</a><a>病症相关</a><a>生活保健</a><a>疯狂贴图</a></div>
+                                                <div class="list_con">
+                                                    <!--健康头条-->
+                                                    <div class="list_tab">{$positionTop}</div>
+                                                    <!--健康排行-->
+                                                    <div class="list_tab">{$topList}</div><div class=clr></div></div>
+                                                <!--病症相关-->
+                                                <div class="list_tab">{$positionJiBing}</div>
+                                                <!--生活保健-->
+                                                <div class="list_tab">{$positionBaoJian}</div>
+                                                <!--疯狂贴图-->
+                                                <div class="list_tab"><volist name="positionTieTu" id="vo" key="k">
+                                                        <if condition="$k eq 1">
+                                                            <div class="fktt_hot">
+                                                                <div class="fktt_hot_pic"><img alt="{$vo.title}" src="{$vo.thumb|thumb=###, 75, 32}" width="75" height="32"></div>
+                                                                <div class="fktt_hot_text"><a target="_blank" href="{$vo.url}" class="t"{$vo.style|title_style=###} title="{$vo.title}">{$vo.title|trim=###|str_cut=###,90}</a><br />{$vo.description|trim=###|str_cut=###,105}</div>
+                                                                <div class="clr"></div>
+                                                            </div>
+                                                            <else />
+                                                            <div class="fktt">
+                                                                <div class="fktt_pic"><a target="_blank" href="{$vo.url}"{$vo.style|title_style=###} title="{$vo.title}"><img alt="{$vo.title}" src="{$vo.thumb|thumb=###, 124, 84}"></a></div>
+                                                                <div class="fktt_text"><a target="_blank" href="{$vo.url}"{$vo.style|title_style=###} title="{$vo.title}">{$vo.title|trim=###|str_cut=###,30,''}</a></div>								
+                                                            </div>
+                                                        </if></volist>
+                                                    <div class="clr"></div></div></div>
+                                        </div>
+                                    </div>
+                                    <div class="i_r_list pl6px">
+                                        <div class="list_main" id="tab2">
+                                            <div class="list_title"><a href="http://sex.kx168.cn/" target="_blank">两性与爱</a><a href="http://jiankangtupu.kx168.cn/" target="_blank">健康图谱</a></div>
+                                            <div class="list_title_span" id="tab2_text">{:getAd('ad_index_tab2_text')}</div>
+                                            <div class="list_con">
+                                                <!--两性与爱-->
+                                                <div class="list_tab">{$news[1458]}</div>
+                                                <!--健康图谱-->
+                                                <div class="list_tab">{$news[1768]}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="i_r_list pl6px">
+                                        <div class="list_main" id="tab4">
+                                            <div class="list_title">合作广告<em>&gt;&gt;</em></div>
+                                            <div class="list_title_span" id="tab4_text">{:getAd('ad_index_tab4_text')}</div>
+                                            <div class="list_con" id="412_280_1">{:getAd('ad_index_412_280_1')}</div>
+                                        </div>
+                                    </div>
+                                    <div class="clr"></div>				
+                                    <div class="i_ad_tl" id="834_80_1">{:getAd('ad_index_834_80_1')}</div>
+                                </div>
+                                <div class="i_r_1">
+                                    <div class="i_r_list">
+                                        <div class="list_main" id="tab3">
+                                            <div class="list_title"><a href="http://fuke.kx168.cn/" target="_blank">妇科疾病</a><a href="http://nanke.kx168.cn/" target="_blank">男科疾病</a></div>
+                                            <div class="list_title_span" id="tab3_text">{:getAd('ad_index_tab3_text')}</div>
+                                            <div class="list_con"><!--妇科疾病-->
+                                                <div class="list_tab">{$news[22]}</div>
+                                                <!--男科疾病-->
+                                                <div class="list_tab">{$news[496]}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="i_r_list pl6px">
+                                        <div class="list_main" id="tab5">
+                                            <div class="list_title"><a href="http://baojian.kx168.cn/nvxingbaojian/" target="_blank">女性保健</a><a href="http://baojian.kx168.cn/nanxingbaojian/" target="_blank">男性保健</a></div>
+                                            <div class="list_title_span" id="tab5_text">{:getAd('ad_index_tab5_text')}</div>
+                                            <div class="list_con">
+                                                <!--女性保健-->
+                                                <div class="list_tab">{$news[1606]}</div>
+                                                <!--男性保健--><div class="list_tab">{$news[1607]}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="i_r_list">
+                                        <div class="list_main" id="tab6">
+                                            <div class="list_title"><a href="http://tangniaobing.kx168.cn/" target="_blank">糖尿病</a><a href="http://zhongliu.kx168.cn/" target="_blank">肿瘤</a></div>
+                                            <div class="list_title_span" id="tab6_text">{:getAd('ad_index_tab6_text')}</div>
+                                            <div class="list_con">
+                                                <!--糖尿病-->
+                                                <div class="list_tab">{$news[217]}</div>
+                                                <!--肿瘤-->
+                                                <div class="list_tab">{$news[421]}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="i_r_list pl6px">
+                                        <div class="list_main" id="tab7">
+                                            <div class="list_title"><a href="http://baojian.kx168.cn/yingyouerbaojain/" target="_blank">婴幼儿保健</a><a href="http://baojian.kx168.cn/laonainren/" target="_blank">老年人保健</a></div>
+                                            <div class="list_title_span" id="tab7_text">{:getAd('ad_index_tab7_text')}</div>
+                                            <div class="list_con">
+                                                <!--婴幼儿保健-->
+                                                <div class="list_tab">{$news[1604]}</div>
+                                                <!--老年人保健--><div class="list_tab">{$news[1610]}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="i_ad_tl" id="834_80_2">{:getAd('ad_index_834_80_2')}</div>
+                                
+                                <!--    -->
+                                <div class="i_r_1">
+                                    <div class="i_r_list">
+                                        <div class="list_main" id="tab8">
+                                            <div class="list_title"><a href="http://zhongyi.kx168.cn/" target="_blank">中医</a><a href="http://pianfang.kx168.cn/" target="_blank">偏方</a></div>
+                                            <div class="list_title_span" id="tab8_text">{:getAd('ad_index_tab8_text')}</div>
+                                            <div class="list_con">
+                                                <!--中医-->
+                                                <div class="list_tab">{$news[935]}</div>
+                                                <!--偏方--><div class="list_tab">{$news[841]}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="i_r_list pl6px">
+                                        <div class="list_main" id="tab9">
+                                            <div class="list_title"><a href="http://muying.kx168.cn/" target="_blank">母婴</a><a href="http://xinli.kx168.cn/" target="_blank">心理</a></div>
+                                            <div class="list_title_span" id="tab9_text">{:getAd('ad_index_tab9_text')}</div>
+                                            <div class="list_con">
+                                                <!--母婴-->
+                                                <div class="list_tab">{$news[1316]}</div>
+                                                <!--心理--><div class="list_tab">{$news[1223]}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="i_r_list">
+                                        <div class="list_main" id="tab10">
+                                            <div class="list_title"><a href="http://buyunbuyu.kx168.cn/" target="_blank">不孕不育</a><a href="http://ganbing.kx168.cn/" target="_blank">肝病</a></div>
+                                            <div class="list_title_span" id="tab10_text">{:getAd('ad_index_tab10_text')}</div>
+                                            <div class="list_con">
+                                                <!--不孕不育-->
+                                                <div class="list_tab">{$news[6]}</div>
+                                                <!--肝病-->
+                                                <div class="list_tab">{$news[92]}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="i_r_list pl6px">
+                                        <div class="list_main" id="tab11">
+                                            <div class="list_title"><a href="http://bagua.kx168.cn/" target="_blank">八卦</a><a href="http://yinshi.kx168.cn/" target="_blank">饮食</a></div>
+                                            <div class="list_title_span" id="tab11_text">{:getAd('ad_index_tab11_text')}</div>
+                                            <div class="list_con">
+                                                <!--八卦-->
+                                                <div class="list_tab">{$news[1915]}</div>
+                                                <!--饮食--><div class="list_tab">{$news[1644]}</div>
+                                            </div>
+                                        </div>
+                                    </div>			
+                                    <div class="i_ad_tl" id="834_80_3">{:getAd('ad_index_834_80_3')}</div>
+                                </div>
+                            </div>
+                            <div class="clr"></div>
+                        </div>
+                        <include file="Public:footer" />
+                        </div>
+                        {:getAd('ad_index_couplet')}
+                        <script src="http://js.kx168.cn/index.js"></script>
+                    </body>
+                    </html>

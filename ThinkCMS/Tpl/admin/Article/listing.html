@@ -1,0 +1,43 @@
+<include file="Public:header" />
+<body class="easyui-layout">
+	<div data-options="region:'west',split:true" title="栏目菜单" style="width:160px;padding1:1px;overflow:hidden;">
+		<ul id="CategoryListTree"></ul>
+	</div>
+	<div data-options="region:'center'" style="overflow:hidden;">
+		<!--表单主体-->
+    <table id="articleListing" toolbar="#listing-toolbar" style="width:auto;height:auto"
+           data-options="method: 'post',
+           fitColumns: true,
+           striped:true,
+           nowrap:true,
+           rownumbers:true,
+           showFooter:true,
+           pagination:true,
+           pageNumber:{$page.currentPage},
+           pageSize:{$page.numPerPage},
+           idField: 'id',
+           sortName: '{$page.orderField}',
+           sortOrder: '{$page.orderDirection}',
+           frozenColumns:[[
+           {field:'ck',checkbox:true}
+           ]]">
+        <thead>
+            <tr>
+                <th data-options="field:'id',width:50,sortable:true,align:'center',hidden:true">ID</th>
+                <th data-options="field:'catname',width:120,sortable:true,align:'center',hidden:true">栏目名称</th>
+                <th data-options="field:'title',width:350,sortable:true,align:'center'">标题</th>
+                <th data-options="field:'username',width:120,sortable:true,align:'center'">编辑</th>
+                <th data-options="field:'updatetime',width:130,sortable:true,align:'center',formatter:function(value,rowData,rowIndex){return formatUnixTime('y-m-d h:i:s',rowData.updatetime);}">更新时间</th>
+                <th data-options="field:'opt',width:180,align:'center',formatter:function(value,rowData,rowIndex){return operation(rowData.id,rowIndex);}">操作</th>
+            </tr>
+        </thead>
+    </table>
+    <!--创建Toolbar-->
+    <div id="listing-toolbar" class="datagrid-toolbar">
+    <div style="margin:5px; float:left">当前栏目：<span id="chooseThisParentName" style="font-size:14px; color:#FF0000; font-weight:bold">根栏目</span><input id="chooseThisParentId" style="display:none" value="0">
+       <input id="searchBtn" class="easyui-searchbox" data-options="searcher:searchOperation,prompt:'请输入关键字'" />
+       </div>
+       <include file="Public:operation" />
+    </div>
+	</div>
+<include file="Public:footer" />

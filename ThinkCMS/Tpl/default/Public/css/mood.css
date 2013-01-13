@@ -1,0 +1,29 @@
+.faceArticle {border-top: 1px dashed #DADBD6;margin: 0 auto;padding-bottom: 20px;padding-top: 15px;width: 750px;}
+#apps_svy_mood{width:749px;text-align:center;}
+#apps_svy_mood .apps_svy_mood{width:609px;margin:10px auto;padding:0px}
+#apps_svy_mood ul{margin:0px;padding:0px}#apps_svy_mood .mood{width:50px;height:60px;margin:0 auto}
+#apps_svy_mood li{width:63px;float:left;text-align:center;list-style:none;position:relative}
+#apps_svy_mood .mood_result{width:50px;height:auto;margin:0 auto;padding:0px}
+#apps_svy_mood .mood_result .ft{padding:0px;position:relative;margin-bottom:0px;left:1px;*left:0px;_left:0px;color:#000000; font-size:12px}
+#apps_svy_mood .mood_result .ft_b{padding:0px;position:relative;margin-bottom:0px;left:1px;*left:0px;_left:0pxcolor:#EE0000; font-size:12px;font-weight: bold}
+#apps_svy_mood .mood_result .bar{width:10px;height:62px;border:1px solid #DADADA;padding:0px;background:#fff;position:relative;margin-bottom:5px;left:20px;*left:0px;_left:0px}
+#apps_svy_mood .mood_result .bar .bg{margin:0px;padding:1px;height:0;background:url(http://img.kx168.cn/bg.gif) repeat;width:8px;position:absolute;left:0px;bottom:0px;line-height:0px;font-size:0px}
+#apps_svy_mood .mood_nopd{width:50px;height:60px;margin:0 auto;background:url(http://img.kx168.cn/show1.gif) no-repeat}
+#apps_svy_mood .mood1_nop{background-position:-6px -202px}#apps_svy_mood .mood2_nop{background-position:-68px -202px}
+#apps_svy_mood .mood3_nop{background-position:-130px -202px}#apps_svy_mood .mood4_nop{background-position:-194px -202px}
+#apps_svy_mood .mood5_nop{background-position:-257px -202px}#apps_svy_mood .mood6_nop{background-position:-321px -202px}
+#apps_svy_mood .mood7_nop{background-position:-382px -202px}#apps_svy_mood .mood8_nop{background-position:-444px -202px}
+#apps_svy_mood .mood_opd{width:50px;height:60px;margin:0 auto;background:url(http://img.kx168.cn/show1.gif) no-repeat;cursor:default}
+#apps_svy_mood .mood1_op{background-position:-6px -146px}#apps_svy_mood .mood2_op{background-position:-68px -146px}
+#apps_svy_mood .mood3_op{background-position:-130px -146px}#apps_svy_mood .mood4_op{background-position:-194px -146px}
+#apps_svy_mood .mood5_op{background-position:-257px -146px}#apps_svy_mood .mood6_op{background-position:-321px -146px}
+#apps_svy_mood .mood7_op{background-position:-382px -146px}#apps_svy_mood .mood8_op{background-position:-444px -146px}
+#apps_svy_mood a{width:50px;height:60px;display:block;margin:0 auto}#apps_svy_mood a.moodd{background:url(http://img.kx168.cn/show1.gif) no-repeat}
+#apps_svy_mood a.mood1{background-position:-6px -202px}#apps_svy_mood a:hover.mood1{background-position:-6px -146px}
+#apps_svy_mood a.mood2{background-position:-68px -202px}#apps_svy_mood a:hover.mood2{background-position:-68px -146px}
+#apps_svy_mood a.mood3{background-position:-130px -202px}#apps_svy_mood a:hover.mood3{background-position:-130px -146px}
+#apps_svy_mood a.mood4{background-position:-194px -202px}#apps_svy_mood a:hover.mood4{background-position:-194px -146px}
+#apps_svy_mood a.mood5{background-position:-257px -202px}#apps_svy_mood a:hover.mood5{background-position:-257px -146px}
+#apps_svy_mood a.mood6{background-position:-321px -202px}#apps_svy_mood a:hover.mood6{background-position:-321px -146px}
+#apps_svy_mood a.mood7{background-position:-382px -202px}#apps_svy_mood a:hover.mood7{background-position:-382px -146px}
+#apps_svy_mood a.mood8{background-position:-444px -202px}#apps_svy_mood a:hover.mood8{background-position:-444px -146px}
