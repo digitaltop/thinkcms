@@ -14,9 +14,6 @@ $config = array(
 //    'HTML_CACHE_RULES' => array(
 //        '*' => array('{catname}{$_SERVER.REQUEST_URI}', '86400')
 //    ),
-    'DATA_CACHE_TYPE' => 'Memcache',
-    'MEMCACHE_HOST' => 'tcp://127.0.0.1:11211',
-    'DATA_CACHE_TIME' => '60',
     'URL_HTML_SUFFIX' => 'html', //URL伪静态后缀设置
     'URL_MODEL' => 2, //REWRITE  模式
     'DEFAULT_CHARSET' => 'utf-8', //模板模板编码

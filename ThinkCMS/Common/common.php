@@ -1234,6 +1234,15 @@ function createCategoryCache($pid) {
 }
 
 /**
+ * 根据文章ID，返回文章栏目ID
+ */
+function getNewsCategory($newsId) {
+    $D = M('Article');
+    $rs = $D->where('`id`=' . $newsId)->field('`catid`')->find();
+    return $rs['catid'];
+}
+
+/**
  * 获取子栏目
  * @param $parentid 父级id
  * @param $self 是否包含本身 0为不包含

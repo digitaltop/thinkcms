@@ -36,7 +36,7 @@ function loadData(catid,keywords){
             });
         },
         onDblClickRow:function(rowIndex,field){
-            editOperation(field.menu_id,rowIndex);
+            editOperation(field.id,rowIndex);
         },
         queryParams:{
             'catid':catid,
@@ -76,7 +76,7 @@ function editOperation(dataId,rowIndex){
             msgShow('提示消息','请选择一条记录进行操作!','info');
             return null;
         }else{
-            dataId = rows[0].menu_id;
+            dataId = rows[0].id;
         }
     }
     var p = {
@@ -106,7 +106,7 @@ function deleteOperation(dataId,rowIndex){
             return null;
         }
         for(var i=0;i<rows.length;i++){
-            ids.push(rows[i].menu_id);
+            ids.push(rows[i].id);
         }
         dataId = ids.join(',');
     }

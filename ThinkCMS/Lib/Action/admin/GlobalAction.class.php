@@ -6,7 +6,7 @@
 
 class GlobalAction extends Action {
 
-    protected $CATEGORYS;//栏目缓存
+    protected $CATEGORYS; //栏目缓存
     protected $UserID; //用户ID
     protected $UserName; //用户名_指登录的用户名
     protected $UserDeptId; //用户部门，字符串，如1,2,3
@@ -115,22 +115,35 @@ class GlobalAction extends Action {
     /**
      * 通用删除方法，适用于有主键的，如果没有主键，则附加ID字段名
      * @param string $table 表名
-     * @param array $ids需要删除的
-     * @param string $idField 主键字段
+     * @param array $where需要删除的条件 如果是数组，则直接使用，否则使用 id|1,2,3，如果主键为空，则自动获取主键
+     * @param string $url 为返回结果，否则返回详细信息
      */
-    protected function deleteItems($table, $ids, $idField = '') {
-        if (!$ids)
-            $this->uiReturn(false, '未选择记录');
-        $Dao = D($table);
-        if ($idField == '')
-            $idField = $Dao->getPk();
-        $condition = array();
-        $condition[$idField] = array('in', $ids);
-        $res = $Dao->where($condition)->delete();
-        if ($res) {
+    protected function _del($table, $where, $url = 0) {
+        $db = M($table);
+        if (is_array($where)) {
+            $condition = $where;
+        } else {
+            $x = explode('|', $where);
+            if (count($x) == 2) {
+                $idField = $x[0];
+                $ids = $x[1];
+            } else {
+                $idField = $db->getPk();
+                $ids = $x[0];
+            }
+            $condition = array();
+            $condition[$idField] = array('in', $ids);
+            if (!$ids) {
+                $this->uiReturn(false, '未选择记录');
+            }
+        }
+        $res = $db->where($condition)->delete();//echo($db->getLastSql());
+        if ($url == 1) {
+            return $res;
+        } else if ($res) {
             $this->uiReturn(true, '删除成功！', '', '', '');
         } else {
-            $this->uiReturn(false, '删除失败：' . $Dao->getError());
+            $this->uiReturn(false, '删除失败：' . $db->getError());
         }
     }
 
@@ -141,9 +154,10 @@ class GlobalAction extends Action {
         if (!empty($data_merge)) {
             $data = array_merge($data, $data_merge); //合并data追加的数组数据
         }
-        $this->uiReturn(false, json_encode($data));
         if ($data) {
+            //print_r($data);
             $result = $db->add($data);
+            //echo(chr(10) . $db->getLastSql());
             if (false !== $result) {
                 if ((int) $url == 1) {  //当$url  参数为1时，返回出来  $result的值,进行继续处理
                     return $result;
@@ -160,17 +174,19 @@ class GlobalAction extends Action {
      * table	  : 数据库表名，必选参数
       $data    :  外界传递过来的条件  id为create 自动获取
      * url	      : 操作成功之后跳转的url，可选参数
+     * $reque 1对数组进行叠加 0不叠加
      */
 
     //公共更新方法
-    protected function _update($table, $data, $url) {
+    protected function _update($table, $data, $url, $reque = 1) {
         $db = M($table);
         $vo = $db->create();
         if (!empty($data)) {
-            $vo = array_merge($vo, $data); //当 $data不为空时，合并外界传递过来的数组
+            ($reque == 1) ? $vo = array_merge($vo, $data) : $vo = $data; //当 $data不为空时，合并外界传递过来的数组
         }
         if ($vo) {
             $result = $db->save($vo);
+            //echo(chr(10) . $db->getLastSql());
             if (false !== $result) {
                 if ((int) $url == 1) {  //当$url  参数为1时，返回出来  $result的值,进行继续处理
                     return $result;

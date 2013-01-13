@@ -5,6 +5,9 @@
  */
 
 class ArticleAction extends GlobalAction {
+
+    protected $ModelId = 'b1a9de09-5199-11e2-83b4-f0def10abaa2';
+
     /*
      * 初始化
      */
@@ -29,7 +32,7 @@ class ArticleAction extends GlobalAction {
         $this->assign('cat', $cat);
 
         $defaultData = array();
-        $defaultData['inputtime'] = mktime();
+        $defaultData['inputtime'] = time();
         $defaultData['updatetime'] = $defaultData['inputtime'];
         $defaultData['username'] = $this->UserNickName;
         $defaultData['copyfrom'] = C('APP_TITLE');
@@ -72,15 +75,19 @@ class ArticleAction extends GlobalAction {
 
     public function delete() {
         $Dao = D('Article');
-        $ids = '';
-        $ex = explode(',', $_REQUEST['id']);
-        foreach ($ex as $v) {
-            $ids.=$Dao->field('arrchildid')->find($v) . ',';
-        }
-        $ids = str_replace(',,', ',', trim($_REQUEST['id']) . ',' . $ids);
+        $ids = $_REQUEST['id'];
         $ex = explode(',', $ids);
-        $ids = array_unique($ex);
-        $this->deleteItems('Article', $ids, 'catid');
+        $res = array();
+        $res['base'] = $this->_del('Article', 'id|' . $ids, 1); //基本信息
+        $res['content'] = $this->_del('ArticleData', 'id|' . $ids, 1); //内容
+        $res['keywords'] = $this->_del('ArticleKeywords', 'newsid|' . $ids, 1); //关键词
+        $res['position'] = $this->_del('PositionData', array('tableid' => array('in', $ids), 'modelid' => $this->ModelId), 1); //推荐位
+        //更新栏目统计
+        foreach ($ex as $newsId) {
+            $res['category'][] = M('Category')->where('`catid`=' . getNewsCategory($newsId))->setDec('rocords');
+            $res['relation'][] = $this->articleRelation($newsId); //删除关联文章
+        }
+        $this->uiReturn(true, '删除任务提交成功！');
     }
 
     /*
@@ -129,12 +136,12 @@ class ArticleAction extends GlobalAction {
         $data['inputtime'] = strtotime($_REQUEST['inputtime']);
         $data['updatetime'] = strtotime($_REQUEST['updatetime']);
         //默认值
-        $data['keywords'] = str_replace(' ', ',', str_replace('|', ',', trim($_REQUEST['keywords'])));
+        $data['keywords'] = str_replace('，', ',', str_replace('　', ',', str_replace(' ', ',', str_replace('|', ',', trim($_REQUEST['keywords'])))));
         $data['isdelete'] = 0;
         $data['listorder'] = intval($_REQUEST['listorder']);
         $data['islink'] = intval($_REQUEST['islink']);
         $data['lanid'] = $this->choseLanguage;
-        $modelid = 'b1a9de09-5199-11e2-83b4-f0def10abaa2'; //文章的模块ID
+        $modelid = $this->ModelId; //文章的模块ID
         //URL链接
         if (intval($_REQUEST['islink']) == 1) {
             $data['url'] = trim($_REQUEST['url']);
@@ -150,7 +157,7 @@ class ArticleAction extends GlobalAction {
                     $data['url'] = C('BASE_URL') . 'Index/content/id/[[NEWSID]].' . C('URL_HTML_SUFFIX');
                     break;
                 case 4:
-                    $data['url'] = C('BASE_URL') . '[[CATEGORY]]/' . date('Y') . '/' . date('md') . '/[[NEWSID]].' . C('URL_HTML_SUFFIX');
+                    $data['url'] = '[[CATEGORYURL]]' . date('Y') . '/' . date('md') . '/[[NEWSID]].' . C('URL_HTML_SUFFIX');
                     break;
                 default:
                     $data['url'] = C('BASE_URL') . 'index.php?m=Index&a=content&id=[[NEWSID]].' . C('URL_HTML_SUFFIX');
@@ -164,7 +171,7 @@ class ArticleAction extends GlobalAction {
             //添加文章内容
             $resu['data'] = $this->articleContent($ID);
             //添加文章关键词
-            $resu['keywords'] = $this->articleKeywords($ID, trim($_REQUEST['keywords']), $data['url'], intval($_REQUEST['listorder']));
+            $resu['keywords'] = $this->articleKeywords($ID, $data['keywords'], $data['url'], intval($_REQUEST['listorder']));
             //更新推荐位
             $postion = $_REQUEST['position'];
             if (count($postion) > 0) {
@@ -175,9 +182,8 @@ class ArticleAction extends GlobalAction {
             foreach ($ca as $newsNum => $catid) {
                 if (0 === $this->CATEGORYS[$catid]['ischild']) {//没有子栏目的目录才能添加文章
                     $s++;
-                    if (intval($_REQUEST['islink']) !== 1) {
-                        $data['url'] = str_replace('[[CATEGORY]]', getCategoryDir($catid, 'catdir'), $data['url']);
-                    }
+                    $data['url'] = str_replace('[[CATEGORYURL]]', $this->CATEGORYS[$catid]['url'], $data['url']);
+                    $data['catid'] = $catid;
                     $newsId = $this->_add('Article', $data, 1);
                     $resu[$newsNum]['baseAdd'] = $newsId;
                     if (intval($_REQUEST['islink']) !== 1) {
@@ -185,16 +191,15 @@ class ArticleAction extends GlobalAction {
                         $upDate = array();
                         $upDate['id'] = $newsId;
                         $upDate['url'] = str_replace('[[NEWSID]]', $newsId, $data['url']);
-                        $up = $this->_update('Article', $upDate, 1);
+                        $up = $this->_update('Article', $upDate, 1, 0);
                         $resu[$newsNum]['update'] = $up;
-                        $data['url'] = $upDate['url'];
                     } else {
                         $resu[$newsNum]['baseUpdate'] = true;
                     }
                     //添加文章内容
                     $resu[$newsNum]['data'] = $this->articleContent($newsId);
                     //添加文章关键词
-                    $resu[$newsId]['keywords'] = $this->articleKeywords($newsId, trim($_REQUEST['keywords']), $data['url'], intval($_REQUEST['listorder']));
+                    $resu[$newsId]['keywords'] = $this->articleKeywords($newsId, $data['keywords'], str_replace('[[NEWSID]]', $newsId, $data['url']), intval($_REQUEST['listorder']));
                     //更新推荐位
                     $postion = $_REQUEST['position'];
                     if (count($postion) > 0) {
@@ -207,7 +212,7 @@ class ArticleAction extends GlobalAction {
             }
             $this->uiReturn(TRUE, '成功将文章添加至【<font color="#f00">' . $s . '</font>】个栏目中！');
         }
-        $this->uiReturn(false, $data['thumb']);
+        $this->uiReturn(false, '添加失败！');
     }
 
     /**
@@ -263,7 +268,7 @@ class ArticleAction extends GlobalAction {
      */
     protected function aritclePosition($newsId, $posId, $catid, $modelid, $thumb, $listorder) {
         ($thumb !== '') ? $thumb = 1 : $thumb = 0;
-        $Dao = M('Position_data');
+        $Dao = M('PositionData');
         $condition = array();
         $res = array();
         $condition['modelid'] = $modelid;
@@ -279,6 +284,14 @@ class ArticleAction extends GlobalAction {
             $res['save'][$k] = $Dao->data($data)->add();
         }
         return $res;
+    }
+
+    /**
+     * 清除文章关联
+     * @param type $sid 源ID
+     */
+    public function articleRelation($sid) {
+        return $this->_del('ArticleRelation', array('sourceid' => $sid), 1);
     }
 
     /*
