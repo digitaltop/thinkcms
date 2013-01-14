@@ -17,45 +17,47 @@
         <script type="text/javascript" src="__PUBLIC__/ui/plugins/DateTimeMask.js"></script>
         <script type="text/javascript" src="../Public/js/common.js"></script>
     </head>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/edit/editor_all.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/edit/editor_config.js"></script>
 <body class="easyui-layout">
-	<div data-options="region:'west',split:true" title="栏目菜单" style="width:160px;padding1:1px;overflow:auto;">
-		<ul id="CategoryListTree"></ul>
-	</div>
-	<div data-options="region:'center'" style="overflow:auto;">
-		<!--表单主体-->
-    <table id="articleListing" toolbar="#listing-toolbar" style="width:auto;height:auto"
-           data-options="method: 'post',
-           fitColumns: true,
-           striped:true,
-           nowrap:true,
-           rownumbers:true,
-           showFooter:true,
-           pagination:true,
-           pageNumber:<?php echo ($page["currentPage"]); ?>,
-           pageSize:<?php echo ($page["numPerPage"]); ?>,
-           idField: 'id',
-           sortName: '<?php echo ($page["orderField"]); ?>',
-           sortOrder: '<?php echo ($page["orderDirection"]); ?>',
-           frozenColumns:[[
-           {field:'ck',checkbox:true}
-           ]]">
-        <thead>
-            <tr>
-                <th data-options="field:'id',width:50,sortable:true,align:'center',hidden:true">ID</th>
-                <th data-options="field:'catname',width:120,sortable:true,align:'center',hidden:true">栏目名称</th>
-                <th data-options="field:'title',width:350,sortable:true,align:'center'">标题</th>
-                <th data-options="field:'username',width:120,sortable:true,align:'center'">编辑</th>
-                <th data-options="field:'updatetime',width:130,sortable:true,align:'center',formatter:function(value,rowData,rowIndex){return formatUnixTime('y-m-d h:i:s',rowData.updatetime);}">更新时间</th>
-                <th data-options="field:'opt',width:180,align:'center',formatter:function(value,rowData,rowIndex){return operation(rowData.id,rowIndex);}">操作</th>
-            </tr>
-        </thead>
-    </table>
-    <!--创建Toolbar-->
-    <div id="listing-toolbar" class="datagrid-toolbar">
-    <div style="margin:5px; float:left">当前栏目：<span id="chooseThisParentName" style="font-size:14px; color:#FF0000; font-weight:bold">根栏目</span><input id="chooseThisParentId" style="display:none" value="0">
-       <input id="searchBtn" class="easyui-searchbox" data-options="searcher:searchOperation,prompt:'请输入关键字'" />
-       </div>
-       <a href="javascript:void(0)" onClick="javascript:addOperation();" id="curd_addOperation" class="easyui-linkbutton" iconcls="icon-add" plain="true" style="float:left;">添加记录</a>
+    <div data-options="region:'west',split:true" title="栏目菜单" style="width:160px;padding1:1px;overflow:auto;">
+        <ul id="CategoryListTree"></ul>
+    </div>
+    <div data-options="region:'center'" style="overflow:auto;">
+        <!--表单主体-->
+        <table id="categoryListing" toolbar="#listing-toolbar" style="width:auto;height:auto"
+               data-options="method: 'post',
+               fitColumns: true,
+               striped:true,
+               nowrap:true,
+               rownumbers:true,
+               showFooter:true,
+               pagination:true,
+               pageNumber:<?php echo ($page["currentPage"]); ?>,
+               pageSize:<?php echo ($page["numPerPage"]); ?>,
+               idField: 'catid',
+               sortName: '<?php echo ($page["orderField"]); ?>',
+               sortOrder: '<?php echo ($page["orderDirection"]); ?>',
+               frozenColumns:[[
+               {field:'ck',checkbox:true}
+               ]]">
+            <thead>
+                <tr>
+                    <th data-options="field:'catid',width:50,sortable:true,align:'center',hidden:true">ID</th>
+                    <th data-options="field:'catname',width:120,sortable:true,align:'center'">栏目名称</th>
+                    <th data-options="field:'viewlocation',width:120,sortable:true,align:'center',formatter:function(value,rowData,rowIndex){return navViewOperation(rowData.viewlocation,rowIndex);}">导航栏显示</th>
+                    <th data-options="field:'modelname',width:120,sortable:true,align:'center'">所属模块</th>
+                    <th data-options="field:'target',width:80,sortable:true,align:'center',formatter:function(value,rowData,rowIndex){return targetOperation(rowData.target,rowIndex);}">打开方式</th>
+                    <th data-options="field:'opt',width:180,align:'center',formatter:function(value,rowData,rowIndex){return operation(rowData.catid,rowIndex);}">操作</th>
+                </tr>
+            </thead>
+        </table>
+        <!--创建Toolbar-->
+        <div id="listing-toolbar" class="datagrid-toolbar">
+            <div style="margin:5px; float:left">当前栏目：<span id="chooseThisParentName" style="font-size:14px; color:#FF0000; font-weight:bold">根栏目</span><input id="chooseThisParentId" style="display:none" value="0">
+                <input id="searchBtn" class="easyui-searchbox" data-options="searcher:searchOperation,prompt:'请输入关键字'" />
+            </div>
+            <a href="javascript:void(0)" onClick="javascript:addOperation();" id="curd_addOperation" class="easyui-linkbutton" iconcls="icon-add" plain="true" style="float:left;">添加记录</a>
 <a href="javascript:void(0)" onClick="javascript:editOperation();" id="curd_editOperation" class="easyui-linkbutton" iconcls="icon-edit" plain="true" style="float:left;">修改记录</a>
 <a href="javascript:void(0)" onClick="javascript:deleteOperation();" id="curd_deleteOperation" class="easyui-linkbutton" iconcls="icon-cancel" plain="true" style="float:left;">删除选中的记录</a>
 <div class="datagrid-btn-separator"></div>
@@ -79,8 +81,10 @@
 //        $('#curd_exportOperation').linkbutton('disable');
 //    }
 </script>
+            <a href="javascript:void(0)" onClick="javascript:importOperation();" id="curd_importOperation" class="easyui-linkbutton" iconcls="icon-tabicons308" plain="true" style="float:left;">Excel导入</a>
+            <div class="datagrid-btn-separator"></div>
+        </div>
     </div>
-	</div>
 <?php echo ($jsfile); ?>
 </body>
 </html>

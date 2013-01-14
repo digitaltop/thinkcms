@@ -28,7 +28,7 @@ function loadData(catid,keywords){
         onHeaderContextMenu: function(e, field){
             e.preventDefault();
             if (!$('#tmenu').length){
-                createListColumnMenu();
+                createListColumnMenu('articleListing');
             }
             $('#tmenu').menu('show', {
                 left:e.pageX,

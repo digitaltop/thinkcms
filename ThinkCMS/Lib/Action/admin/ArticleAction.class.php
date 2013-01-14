@@ -171,12 +171,13 @@ class ArticleAction extends GlobalAction {
             //添加文章内容
             $resu['data'] = $this->articleContent($ID);
             //添加文章关键词
-            $resu['keywords'] = $this->articleKeywords($ID, $data['keywords'], $data['url'], intval($_REQUEST['listorder']));
+            $resu['keywords'] = $this->articleKeywords($ID, $data['keywords'], str_replace('[[CATEGORYURL]]', $this->CATEGORYS[$catid]['url'], str_replace('[[NEWSID]]', $ID, $data['url'])), intval($_REQUEST['listorder']));
             //更新推荐位
             $postion = $_REQUEST['position'];
             if (count($postion) > 0) {
                 $resu['position'] = $this->aritclePosition($ID, $postion, $catid, $modelid, $data['thumb'], intval($_REQUEST['listorder']));
             }
+            $this->uiReturn(TRUE, '保存成功！');
         } else {
             $s = 0;
             foreach ($ca as $newsNum => $catid) {
@@ -212,7 +213,7 @@ class ArticleAction extends GlobalAction {
             }
             $this->uiReturn(TRUE, '成功将文章添加至【<font color="#f00">' . $s . '</font>】个栏目中！');
         }
-        $this->uiReturn(false, '添加失败！');
+        $this->uiReturn(false, '保存失败！');
     }
 
     /**

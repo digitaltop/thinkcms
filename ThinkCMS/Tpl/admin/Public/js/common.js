@@ -64,6 +64,25 @@ function tabClose(){
 
 //绑定右键菜单事件
 function tabCloseEven(){
+    //最大化
+    $('#mm-maxwindow').click(function(){
+        if($('#mm-maxval').html() == '最大化'){
+            $('#mm-maxwindow').attr('iconCls','icons-tabicons235');
+            $('#digitaltopSystemLayout').layout('collapse','north');
+            $('#digitaltopSystemLayout').layout('collapse','south');
+            $('#digitaltopSystemLayout').layout('collapse','west');
+            $('#digitaltopSystemLayout').layout('panel', 'center').panel('resize',{
+                height:$('#digitaltopSystemLayout').height()
+            });
+            $('#mm-maxval').html('还原');
+        }else{
+            $('#mm-maxwindow').attr('iconCls','icons-tabicons36')
+            $('#digitaltopSystemLayout').layout('expand','north');
+            $('#digitaltopSystemLayout').layout('expand','south');
+            $('#digitaltopSystemLayout').layout('expand','west');
+            $('#mm-maxval').html('最大化');
+        }
+    });
     // 刷新
     $('#mm-tabupdate').click(function() {
         var currTab = $('#tabs').tabs('getSelected');
@@ -584,12 +603,12 @@ function uiBottonSecurity(m,a){
     return false;
 }
 
-//菜单右键
-function createListColumnMenu(){
+//DataGrid右键菜单
+function createListColumnMenu(domId){
     var tmenu = $('<div id="tmenu" style="width:100px;"></div>').appendTo('body');
-    var fields =  $('#listing').datagrid('getColumnFields');
+    var fields =  $('#'+domId).datagrid('getColumnFields');
     for(var i=0; i<fields.length; i++){
-        var opts = $('#listing').datagrid('getColumnOption', fields[i]);
+        var opts = $('#'+domId).datagrid('getColumnOption', fields[i]);
         var muit = $('<div iconCls="icon-ok"/>');
         muit.attr('id', fields[i]);
         muit.html(opts.title).appendTo(tmenu);
@@ -597,13 +616,13 @@ function createListColumnMenu(){
     tmenu.menu({
         onClick: function(item){
             if (item.iconCls=='icon-ok'){
-                $('#listing').datagrid('hideColumn', item.id);
+                $('#'+domId).datagrid('hideColumn', item.id);
                 tmenu.menu('setIcon', {
                     target: item.target,
                     iconCls: 'icon-empty'
                 });
             } else {
-                $('#listing').datagrid('showColumn', item.id);
+                $('#'+domId).datagrid('showColumn', item.id);
                 tmenu.menu('setIcon', {
                     target: item.target,
                     iconCls: 'icon-ok'

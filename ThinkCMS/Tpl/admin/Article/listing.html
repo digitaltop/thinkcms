@@ -1,9 +1,9 @@
 <include file="Public:header" />
 <body class="easyui-layout">
-	<div data-options="region:'west',split:true" title="栏目菜单" style="width:160px;padding1:1px;overflow:hidden;">
+	<div data-options="region:'west',split:true" title="栏目菜单" style="width:160px;padding1:1px;overflow:auto;">
 		<ul id="CategoryListTree"></ul>
 	</div>
-	<div data-options="region:'center'" style="overflow:hidden;">
+	<div data-options="region:'center'" style="overflow:auto;">
 		<!--表单主体-->
     <table id="articleListing" toolbar="#listing-toolbar" style="width:auto;height:auto"
            data-options="method: 'post',

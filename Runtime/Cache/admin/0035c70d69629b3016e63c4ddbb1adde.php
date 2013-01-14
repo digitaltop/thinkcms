@@ -93,19 +93,19 @@
         </script>
 
     </head>
-    <body class="easyui-layout" style="overflow-y: hidden" scroll="no">
+    <body id="digitaltopSystemLayout" class="easyui-layout" style="overflow-y: hidden" scroll="no">
         <!-- 如果未开启Javascript-->
         <noscript><div style=" position:absolute; z-index:100000; height:2046px;top:0px;left:0px; width:100%; background:white; text-align:center;">
                 <img src="../Public/images/noscript.gif" alt='抱歉，请开启脚本支持！' />
             </div></noscript>
         <!--页头-->
         <div region="north" split="true" border="false" style="overflow: hidden; height: 113px; line-height: 20px;color: #000; font-family: Verdana, 微软雅黑,黑体; background-color: #e0ecff">
-            <div style="width:100%;height:77px;background:url('../Public/images/top_bg.jpg');"><img src="../Public/images/top.jpg"/></div>
+            <div style="width:100%;height:77px;background:url('../Public/images/top_bg.jpg');"><div style="wdith:500px; height: 77px; background: url('../Public/images/top.jpg');"><img style="margin: 20px;" src="<?php echo U('Public/login_logo',array('p'=>1));?>" /></div></div>
 <div><div id="welcomeUser" style="width:300px;text-align: right; margin-top: 6px; float: left">欢迎您：<?php echo (session('USER_NICKNAME')); ?></div><div style="width: 190px; text-align: right; margin: 3px; float: right; display: inline"><a href="#" id="profile" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-tip'">修改资料</a>&nbsp;<a href="#" id="loginOut" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-cancel'">退出系统</a></div></div>
         </div>
         <!-- 页脚  -->
-        <div region="south" split="true" style="height: 5px; background: #D2E0F2; ">
-            <div class="footer"></div>
+        <div region="south" split="true" style="height: 29px; background: #D2E0F2; overflow: hidden">
+            <div class="footer">版权所有：成都阿美科技有限公司</div>
         </div>
         <!-- 菜单 -->
         <div region="west" hide="true" split="true" title="导航菜单" style="width:180px;" id="west" data-options="plain:true,iconCls:'icon-tabicons75'">
@@ -159,7 +159,7 @@
         <!-- 右侧内容 -->
         <div id="mainPanle" region="center" style="background: #eee; overflow-y:hidden">
             <div id="tabs" class="easyui-tabs"  fit="true" border="false" >
-                <div title="欢迎使用" style="overflow:hidden;" id="home" data-options="plain:true,iconCls:'icon-tabicons15'">
+                <div title="我的桌面" style="overflow:hidden;" id="home" data-options="plain:true,iconCls:'icon-tabicons341'">
                     <div style="margin: 10px 0px 0px 15px;">
 <?php if(is_array($info)): $i = 0; $__LIST__ = $info;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?><li><?php echo(array_keys($info,$vo)[0]); ?>：<?php echo ($vo); ?></li><?php endforeach; endif; else: echo "" ;endif; ?>
 </div>
@@ -168,16 +168,17 @@
         </div>
         <!-- 右键菜单-->
         <div id="mm" class="easyui-menu" style="width:150px;">
-            <div id="mm-tabupdate">刷新</div>
+            <div id="mm-maxwindow" iconCls="icon-tabicons36"><span id="mm-maxval">最大化</span></div>
+            <div id="mm-tabupdate" iconCls="icon-reload">刷新</div>
             <div class="menu-sep"></div>
-            <div id="mm-tabclose">关闭</div>
-            <div id="mm-tabcloseall">全部关闭</div>
-            <div id="mm-tabcloseother">除此之外全部关闭</div>
+            <div id="mm-tabclose" iconCls="icon-tabicons128">关闭</div>
+            <div id="mm-tabcloseall" iconCls="icon-tabicons68">全部关闭</div>
+            <div id="mm-tabcloseother" iconCls="icon-tabicons151">除此之外全部关闭</div>
             <div class="menu-sep"></div>
-            <div id="mm-tabcloseright">当前页右侧全部关闭</div>
-            <div id="mm-tabcloseleft">当前页左侧全部关闭</div>
+            <div id="mm-tabcloseright" iconCls="icon-tabicons160">当前页右侧全部关闭</div>
+            <div id="mm-tabcloseleft" iconCls="icon-tabicons161">当前页左侧全部关闭</div>
             <div class="menu-sep"></div>
-            <div id="mm-exit">退出</div>
+            <div id="mm-exit" iconCls="icon-tabicons129">退出</div>
         </div>
         <!-- -->
     </body>
