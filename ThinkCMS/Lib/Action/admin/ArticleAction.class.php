@@ -6,7 +6,7 @@
 
 class ArticleAction extends GlobalAction {
 
-    protected $ModelId = 'b1a9de09-5199-11e2-83b4-f0def10abaa2';
+    protected $ModelId = '96817dab-5dfd-11e2-93dc-f0def10abaa2';
 
     /*
      * 初始化

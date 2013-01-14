@@ -21,7 +21,7 @@
      */
     var URL = '/Public/edit/';
     window.UEDITOR_HOME_URL = '/Public/edit/';
-    var attrPath = 'http://u.kx168.cn';
+    var attrPath = '';
     /**
      * 此处配置写法适用于UEditor小组成员开发使用，外部部署用户请按照上述说明方式配置即可，建议保留下面两行，以兼容可在具体每个页面配置window.UEDITOR_HOME_URL的功能。
      */
@@ -38,7 +38,7 @@
 
         //图片上传配置区
         ,
-        imageUrl:URL+"php/imageUp.php"             //图片上传提交地址
+        imageUrl:U('Attachments/upload',{type:'image'})             //图片上传提交地址
         ,
         //imagePath:URL + "php/"                     //图片修正地址，引用了fixedImagePath,如有特殊需求，可自行配置
         imagePath:attrPath
@@ -48,7 +48,7 @@
 
         //涂鸦图片配置区
         ,
-        scrawlUrl:URL+"php/scrawlUp.php"           //涂鸦上传地址
+        scrawlUrl:U('Attachments/scrawl')           //涂鸦上传地址
         ,
         scrawlPath:attrPath                            //图片修正地址，同imagePath
 

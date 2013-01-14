@@ -8,6 +8,9 @@ $config = array(
     'DEFAULT_GROUP' => 'default',
     'APP_FILE_CASE' => TRUE, //是否检查文件的大小写 对Windows平台有效
     'SHOW_ERROR_MSG' => FALSE, //是否显示错误信息
+    'IS_THUMB' => true, //是否生成缩略图
+    'THUMB_MAX_WIDTH' => 300, //缩略图最大宽度
+    'THUMB_MAX_HEIGHT' => 300, //缩略图的最大高度
 //    'HTML_CACHE_ON' => TRUE,
 //    'HTML_CACHE_TIME' => '60',
 //    'HTML_FILE_SUFFIX' => '.html',
@@ -26,14 +29,14 @@ $config = array(
     'ATTH_PATH' => 'http://u.kx168.cn/',
     'IMG_PATH' => 'http://img.kx168.cn/',
     'SEO' => array(
-        'url_model'=>4,//前台URL样式　　０http://www.xx.com/index.php?m=Index&a=index  1http://www.xx.com/module-action-id-1.html   2http://www.xx.com/model/action/id/1  3http://www.xx.com/?s=/module/action/id/1/  4http://www.xx.com/category/2013/0112/id.html
+        'url_model' => 4, //前台URL样式　　０http://www.xx.com/index.php?m=Index&a=index  1http://www.xx.com/module-action-id-1.html   2http://www.xx.com/model/action/id/1  3http://www.xx.com/?s=/module/action/id/1/  4http://www.xx.com/category/2013/0112/id.html
         'name' => '开心健康网',
         'site_title' => '开心健康网,有开心,就有健康',
         'keywords' => '开心健康网,CC120,开心健康信息网,两性健康,不孕不育,性保健,月经不调,性知识,夫妻性生活',
         'description' => '开心健康网,CC120-开心健康信息网,中国三大健康网,是男性健康、女性健康的两性教育平台。专业提供中国健康信息,两性健康,两性生活,两性视频,两性教育,健康饮食,健康避孕,心理健康,健康知识等内容为主体。cc120健康网是广大青年男女普及性知识的良师益友。'),
     'APP_SUB_DOMAIN_DEPLOY' => 1,
     'APP_SUB_DOMAIN_RULES' => array(
-        'admin'=>array('admin/'),
+        'admin' => array('admin/'),
         'buyunbuyu' => array('default/Index', 'a=content&catid=6&modelid=1&catname=buyunbuyu&child=1'),
         'fuke' => array('default/Index', 'a=content&catid=22&modelid=1&catname=fuke&child=1'),
         'ganbing' => array('default/Index', 'a=content&catid=92&modelid=1&catname=ganbing&child=1'),

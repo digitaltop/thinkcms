@@ -109,11 +109,26 @@ class PublicAction extends Action {
      */
 
     public function login_logo() {
-        (intval($_GET['p']) > 0) ? $r = array(1, 1, 1) : $r = array(255, 255, 255);
-        import('@.ORG.BuildImageText');
-        $IMG = new BuildImageText();
         $basePath = str_replace('//', '/', $_SERVER['DOCUMENT_ROOT']);
-        $IMG->img(str_replace('//', '/', $basePath . '/' . APP_PATH . '/Tpl/' . GROUP_NAME . '/Public/images/login_logo.gif'), C('APP_TITLE') . '_后台管理系统', $basePath . '/Public/ttf/msyhbd.ttf', 20, 0, $r[0], $r[1], $r[2], 60, 30);
+        $canvas = new Imagick(str_replace('//', '/', $basePath . '/' . APP_PATH . '/Tpl/' . GROUP_NAME . '/Public/images/login_logo.gif'));
+        $draw = new ImagickDraw();
+        $draw->setFontSize(20); //设置字体大小
+        //$draw->setTextUnderColor(new ImagickPixel('red')); //设置背景色
+        $draw->setFillColor(new ImagickPixel('white')); //设置字体颜色
+        $draw->setGravity(Imagick::GRAVITY_SOUTHEAST); //设置水印位置
+        $draw->setFillAlpha(0.5);
+        $draw->annotation(0, 0,  C('APP_TITLE') . '_后台管理系统');
+
+        $canvas->drawImage($draw);
+        //$canvas->writeImage('1.fill.jpg');
+        header("Content-Type: image/jpg");
+        echo $canvas;
+
+//        (intval($_GET['p']) > 0) ? $r = array(1, 1, 1) : $r = array(255, 255, 255);
+//        import('@.ORG.BuildImageText');
+//        $IMG = new BuildImageText();
+//
+//        $IMG->img(str_replace('//', '/', $basePath . '/' . APP_PATH . '/Tpl/' . GROUP_NAME . '/Public/images/login_logo.gif'), C('APP_TITLE') . '_后台管理系统', $basePath . '/Public/ttf/msyhbd.ttf', 20, 0, $r[0], $r[1], $r[2], 60, 30);
     }
 
     /*

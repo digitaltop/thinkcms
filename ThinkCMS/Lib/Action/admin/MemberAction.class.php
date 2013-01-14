@@ -1,6 +1,9 @@
 <?php
 
 class MemberAction extends GlobalAction {
+
+    protected $ModelId = '65fde72c-5249-11e2-ab1c-f0def10abaa2';
+
     /*
      * 初始化
      */

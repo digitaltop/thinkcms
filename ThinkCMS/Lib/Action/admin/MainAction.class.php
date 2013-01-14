@@ -123,57 +123,6 @@ class MainAction extends GlobalAction {
     }
 
     /*
-     * 上传组件
-     */
-
-    public function Upload() {
-        $tablename = trim($_REQUEST['module']);
-        $tableId = intval($_REQUEST['moduleid']);
-        $this->display();
-    }
-
-    /*
-     * 保存附件
-     */
-
-    public function saveUploadFile() {
-        $filePath = str_replace('//', '/', $_SERVER['DOCUMENT_ROOT'] . '/Attachments/' . $this->UserName . '/' . date('Y') . '/' . date('m') . '/');
-        if (!file_exists($filePath)) {
-            mk_dirs($filePath);
-        }
-        import("ORG.Net.UploadFile");
-        $upload = new UploadFile();
-        $upload->maxSize = 31457280; //30M
-        $upload->allowExts = array('jpg', 'gif', 'png', 'jpeg', 'rar', 'doc', 'docx', 'xls', 'xlsx');
-        $upload->savePath = $filePath;
-        $upload->saveRule = 'uniqid';
-        if (!$upload->upload()) {
-            //捕获上传异常
-            echo('<script language="javascript">alert("' . $upload->getErrorMsg() . '");</script>');
-        } else {
-            //上传成功
-            $uploadList = $upload->getUploadFileInfo();
-            $fileName = $uploadList[0]['name'];
-            $newUpFileName = $uploadList[0]['savename'];
-
-            //保存附件
-            $Dao = D('Attachments');
-            $data = array();
-            $data['attachments_name'] = $fileName; //原始文件名
-            $data['filename'] = str_replace($_SERVER['DOCUMENT_ROOT'], '', $filePath . $newUpFileName); //修改后的文件名
-            $data['user_id'] = $this->UserID;
-            $data['size'] = $uploadList[0]['size'];
-            $data['create_time'] = date('Y-m-d H:i:s');
-            $data['listorder'] = 0;
-            $Dao->data($data)->add();
-            $instId = $Dao->getLastInsID();
-
-            //回调
-            echo "<script language=javascript>parent.UploadSaved('" . $instId . "');history.back()</script>";
-        }
-    }
-
-    /*
      * 获取指定模块的所有子模块及操作
      */
 
@@ -191,29 +140,12 @@ class MainAction extends GlobalAction {
         }
     }
 
-    /**
-     * 返回附件列表 —— json 方式
-     */
-    public function getAttachements_json() {
-        $attIds = $_REQUEST['attIds'];
-        $attachments = getAttachments($attIds, $this->UserID);
-        if (count($attachments) > 0) {
-            $result = array(
-                'count' => count($attachments),
-                'items' => $attachments
-            );
-
-            echo(json_encode($result));
-        } else {
-            echo('{count:0;items:[]}');
-        }
-    }
-    
     /*
      * 测试
      */
-    public function test(){
-        echo(date('Y-m-d H:i:s',1358040428));
+
+    public function test() {
+        echo(date('Y-m-d H:i:s', 1358040428));
     }
 
 }

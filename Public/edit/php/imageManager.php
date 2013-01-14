@@ -30,6 +30,7 @@ if ($action == "get") {
  * @return array
  */
 function getfiles($path, &$files = array()) {
+    $path = $_SERVER['DOCUMENT_ROOT'] . str_replace($_SERVER['DOCUMENT_ROOT'], '', $path);
     if (!is_dir($path))
         return null;
     $handle = opendir($path);
@@ -40,7 +41,7 @@ function getfiles($path, &$files = array()) {
                 getfiles($path2, $files);
             } else {
                 if (preg_match("/\.(gif|jpeg|jpg|png|bmp)$/i", $file)) {
-                    $files[] = $path2;
+                    $files[] = str_replace('/uploadfile/', '', str_replace($_SERVER['DOCUMENT_ROOT'], '', $path2));
                 }
             }
         }

@@ -94,6 +94,46 @@ function matchCIDR($addr, $cidr) {
 }
 
 /*
+ * 生成目录，支持递归
+ */
+
+function mk_dirs($dirs, $mode = 0777) {
+    if (is_string($dirs)) {
+        $dirs = explode(',', $dirs);
+    }
+    foreach ($dirs as $dir) {
+        if (is_dir($dir) || @mkdir($dir, $mode))
+            return TRUE;
+        if (!mk_dirs(dirname($dir), $mode))
+            return FALSE;
+        return @mkdir($dir, $mode);
+    }
+}
+
+/**
+ * 删除整个目录
+ * @param $dir
+ * @return bool
+ */
+function delDir($dir) {
+    //先删除目录下的所有文件：
+    $dh = opendir($dir);
+    while ($file = readdir($dh)) {
+        if ($file != "." && $file != "..") {
+            $fullpath = $dir . "/" . $file;
+            if (!is_dir($fullpath)) {
+                unlink($fullpath);
+            } else {
+                delDir($fullpath);
+            }
+        }
+    }
+    closedir($dh);
+    //删除当前文件夹：
+    return rmdir($dir);
+}
+
+/*
  * 作用：生成密码 参数：明文密码 返回：加密后的密码
  */
 
@@ -486,13 +526,13 @@ function getAttachments($attIds, $userid) {
     $attachments = array(); // 需返回的结果
     $i = 0;
     $condition = array();
-    $Dao = D('Attachments');
+    $Dao = M('Attachments');
     $condition ['attachments_id'] = array(
         'in',
         $attIds
     );
     $rs = $Dao->where($condition)->order('`listorder` asc,`attachments_id` desc')->select();
-    $apDao = D('Attachments_permissions');
+    $apDao = M('AttachmentsPermissions');
     foreach ($rs as $v) {
         $condition = array();
         $condition ['attachments_id'] = $v ['attachments_id'];
@@ -504,7 +544,9 @@ function getAttachments($attIds, $userid) {
                 // 只读附件，不返回附件url
                 $attachments [$i] ['attachments_id'] = $v ['attachments_id'];
                 $attachments [$i] ['filename'] = $v ['attachments_name'];
+                $attachments [$i] ['href'] = $v ['filename']; //完整的附件URL
                 $attachments [$i] ['create_time'] = $v ['create_time'];
+                $attachments [$i] ['description'] = $v ['description'];
                 $attachments [$i] ['fileid'] = '';
                 $attachments [$i] ['userid'] = $v ['user_id'];
                 $i++;
@@ -512,7 +554,9 @@ function getAttachments($attIds, $userid) {
                 // 允许下载
                 $attachments [$i] ['attachments_id'] = $v ['attachments_id'];
                 $attachments [$i] ['filename'] = $v ['attachments_name'];
+                $attachments [$i] ['href'] = $v ['filename']; //完整的附件URL
                 $attachments [$i] ['create_time'] = $v ['create_time'];
+                $attachments [$i] ['description'] = $v ['description'];
                 $attachments [$i] ['fileid'] = $v ['attachments_id'];
                 $attachments [$i] ['userid'] = $v ['user_id'];
                 $i++;
