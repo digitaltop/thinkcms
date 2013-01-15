@@ -73,7 +73,7 @@
         ,
         imageManagerUrl:URL + "php/imageManager.php"       //图片在线管理的处理地址
         ,
-        imageManagerPath:attrPath                                    //图片修正地址，同imagePath
+        imageManagerPath:"http://u.kx168.cn"                                    //图片修正地址，同imagePath
 
         //屏幕截图配置区
         ,

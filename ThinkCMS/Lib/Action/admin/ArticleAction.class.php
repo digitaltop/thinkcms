@@ -341,7 +341,7 @@ class ArticleAction extends GlobalAction {
             $condition = array();
             $catid = intval($_REQUEST['catid']);
             if ($catid > 0)
-                $condition['Article.catid'] = intval($_REQUEST['catid']);
+                $condition['Article.catid'] = array('in', $this->CATEGORYS[intval($_REQUEST['catid'])]['arrchildid']);
             $condition['Article.isdelete'] = 0;
             $condition['Article.lanid'] = $this->choseLanguage;
             $catName = trim($_REQUEST['keywords']);

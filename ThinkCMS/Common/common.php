@@ -1252,15 +1252,19 @@ function createCategoryCache($pid) {
     $Dao = M('Category');
     static $category = array();
     $rs = $Dao->where('`parentid`=' . $pid . ' and `isdelete`=0')->select();
-    if ($pid == 0)
+    if ($pid == 0) {
         $category[$pid]['arrparentid'] = '0';
+        $category[$pid]['arrchildid'] = $pid . getSubCategory($pid);
+    }
     foreach ($rs as $k => $v) {
         (checkisSubCategory($v['catid'])) ? $isChild = 1 : $isChild = 0;
         $category[$v['catid']] = array();
-        $category[$v['catid']]['modeid'] = $v['modeid'];
+        $category[$v['catid']]['modelid'] = $v['modelid'];
         $category[$v['catid']]['lanid'] = $v['lanid'];
         $category[$v['catid']]['parentid'] = $v['parentid'];
         $category[$v['catid']]['catname'] = $v['catname'];
+        $category[$v['catid']]['keywords'] = $v['keywords'];
+        $category[$v['catid']]['description'] = $v['description'];
         $category[$v['catid']]['viewlocation'] = $v['viewlocation'];
         $category[$v['catid']]['catdir'] = $v['catdir'];
         $category[$v['catid']]['ico'] = $v['ico'];
@@ -1269,6 +1273,7 @@ function createCategoryCache($pid) {
         $category[$v['catid']]['hits'] = $v['hits'];
         $category[$v['catid']]['rocords'] = $v['rocords'];
         $category[$v['catid']]['arrparentid'] = $category[$pid]['arrparentid'] . ',' . $v['catid'];
+        $category[$v['catid']]['arrchildid'] = $v['catid'] . getSubCategory($v['catid']);
         $category[$v['catid']]['ischild'] = $isChild;
         if (1 === $isChild) {
             createCategoryCache($v['catid']);
@@ -1455,6 +1460,20 @@ function checkisSubCategory($catid) {
     } else {
         return false;
     }
+}
+
+/*
+ * 遍历子栏目
+ */
+
+function getSubCategory($catid) {
+    $Dao = M('Category');
+    $res = '';
+    $rs = $Dao->where('`parentid`=' . $catid)->field('`catid`')->select();
+    foreach ($rs as $v) {
+        $res.=',' . $v['catid'];
+    }
+    return $res;
 }
 
 /**

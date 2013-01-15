@@ -145,7 +145,7 @@ class MainAction extends GlobalAction {
      */
 
     public function test() {
-        echo(date('Y-m-d H:i:s', 1358040428));
+        getCacheCategory(1);
     }
 
 }
