@@ -54,7 +54,7 @@
 
         //附件上传配置区
         ,
-        fileUrl:URL+"php/fileUp.php"               //附件上传提交地址
+        fileUrl:U('Attachments/upload',{type:'attachment'})               //附件上传提交地址
         ,
         filePath:attrPath                   //附件修正地址，同imagePath
         //,fileFieldName:"upfile"                    //附件提交的表单名，若此处修改，需要在后台对应文件修改对应参数

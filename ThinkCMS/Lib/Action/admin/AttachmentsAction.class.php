@@ -34,7 +34,7 @@ class AttachmentsAction extends GlobalAction {
 
     public function scrawl() {
         //临时文件目录
-        $tmpPath = './uploadfile/temp/';
+        $tmpPath = '/uploadfile/temp/';
         $fileType = 'image';
         $this->filePath = str_replace('//', '/', $_SERVER['DOCUMENT_ROOT'] . $tmpPath);
         $this->thumbPath = $this->filePath;
@@ -42,7 +42,7 @@ class AttachmentsAction extends GlobalAction {
         $action = htmlspecialchars($_GET["action"]);
         if ($action == "tmpImg") { // 背景上传
             //背景保存在临时目录中
-            $info = $this->saveUploadFile('image');
+            $info = $this->saveUploadFile('image', '', false);
             /**
              * 返回数据，调用父页面的ue_callback回调
              */
@@ -74,9 +74,9 @@ class AttachmentsAction extends GlobalAction {
             case 'music'://音乐
                 $maxSize = 31457280; //30M
                 $allowExts = array('mp3', 'wav', 'aac', 'm4a', 'mid', 'aif'); //允许的扩展名
-            case 'attachment'://音乐
+            case 'attachment'://附件
                 $maxSize = 31457280; //30M
-                $allowExts = array('zip', 'rar', '7z', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'wps'); //允许的扩展名
+                $allowExts = array('zip', 'rar', '7z', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'wps', 'pdf', 'txt', 'swf', 'wmv'); //允许的扩展名
             default:
                 $maxSize = 1; //
                 $allowExts = array();
@@ -120,23 +120,25 @@ class AttachmentsAction extends GlobalAction {
             $res['originalName'] = $uploadList[0]['name'];
             $res['name'] = $uploadList[0]['savename'];
             $res['title'] = $description;
-            $res['url'] = C('ATTH_PATH') . str_replace('uploadfile/', '', str_replace($_SERVER['DOCUMENT_ROOT'], '', $uploadList[0]['savepath'])) . $uploadList[0]['savename'];
+            $res['url'] = C('ATTH_PATH') . str_replace('/uploadfile/', '', str_replace($_SERVER['DOCUMENT_ROOT'], '', $uploadList[0]['savepath'])) . $uploadList[0]['savename'];
             $res['size'] = $uploadList[0]['size'];
             $res['type'] = '.' . $uploadList[0]['extension'];
             $res['state'] = 'SUCCESS';
 
-            //保存附件
-            $Dao = M('Attachments');
-            $data = array();
-            $data['attachments_name'] = $uploadList[0]['name']; //原始文件名
-            $data['description'] = $description; //
-            $data['filename'] = $res['url']; //修改后的文件名
-            $data['user_id'] = $this->UserID;
-            $data['size'] = $uploadList[0]['size'];
-            $data['create_time'] = time();
-            $data['listorder'] = 0;
-            $Dao->data($data)->add();
-            $res['aid'] = $Dao->getLastInsID(); //保存的附件ID
+            if (false === $base64) {
+                //保存附件
+                $Dao = M('Attachments');
+                $data = array();
+                $data['attachments_name'] = $uploadList[0]['name']; //原始文件名
+                $data['description'] = $description; //
+                $data['filename'] = $res['url']; //修改后的文件名
+                $data['user_id'] = $this->UserID;
+                $data['size'] = $uploadList[0]['size'];
+                $data['create_time'] = time();
+                $data['listorder'] = 0;
+                $Dao->data($data)->add();
+                $res['aid'] = $Dao->getLastInsID(); //保存的附件ID
+            }
             return $res;
         }
     }

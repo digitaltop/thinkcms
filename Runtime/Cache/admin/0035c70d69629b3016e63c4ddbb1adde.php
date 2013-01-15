@@ -1,6 +1,6 @@
 <?php if (!defined('THINK_PATH')) exit();?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-    <head id="Head">
+    <head>
         <title>欢迎进入<?php echo (C("APP_TITLE")); ?>_后台管理系统</title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <link href="../Public/css/default.css" rel="stylesheet" type="text/css" />
@@ -36,6 +36,19 @@
                     windowOpen(p);
                 });
                 $('#welcomeUser').css('width',$(this).width()-200);
+                var nw = $('#northLayout').width();
+                var nh = $('#northLayout').height();
+                var sw = $('#southLayout').width();
+                var sh = $('#southLayout').height();
+                var ww = $('#westLayout').width();
+                var wh = $('#westLayout').height();
+                var cw = $('#centerLayout').width();
+                var ch = $('#centerLayout').height();
+                var defaultTabsWindows = '{north:{width:' + nw + ',height:' + nh + '}},';
+                defaultTabsWindows+='{south:{width:' + sw + ',height:' + sh + '}},';
+                defaultTabsWindows+='{west:{width:' + ww + ',height:' + wh + '}},';
+                defaultTabsWindows+='{center:{width:' + cw + ',height:' + ch + '}}';
+                $('#defaultTabsWindowWD').val(defaultTabsWindows);
             });
             //保存表单
             function saveOperation(windowId){
@@ -94,21 +107,22 @@
 
     </head>
     <body id="digitaltopSystemLayout" class="easyui-layout" style="overflow-y: hidden" scroll="no">
+        <input id="defaultTabsWindowWD" name="defaultTabsWindowWD" type="hidden" value="" />
         <!-- 如果未开启Javascript-->
         <noscript><div style=" position:absolute; z-index:100000; height:2046px;top:0px;left:0px; width:100%; background:white; text-align:center;">
                 <img src="../Public/images/noscript.gif" alt='抱歉，请开启脚本支持！' />
             </div></noscript>
         <!--页头-->
-        <div region="north" split="true" border="false" style="overflow: hidden; height: 113px; line-height: 20px;color: #000; font-family: Verdana, 微软雅黑,黑体; background-color: #e0ecff">
+        <div id="northLayout" region="north" split="true" border="false" style="overflow: hidden; height: 113px; line-height: 20px;color: #000; font-family: Verdana, 微软雅黑,黑体; background-color: #e0ecff">
             <div style="width:100%;height:77px;background:url('../Public/images/top_bg.jpg');"><div style="wdith:500px; height: 77px; background: url('../Public/images/top.jpg');"><img style="margin: 20px;" src="<?php echo U('Public/login_logo',array('p'=>1));?>" /></div></div>
 <div><div id="welcomeUser" style="width:300px;text-align: right; margin-top: 6px; float: left">欢迎您：<?php echo (session('USER_NICKNAME')); ?></div><div style="width: 190px; text-align: right; margin: 3px; float: right; display: inline"><a href="#" id="profile" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-tip'">修改资料</a>&nbsp;<a href="#" id="loginOut" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-cancel'">退出系统</a></div></div>
         </div>
         <!-- 页脚  -->
-        <div region="south" split="true" style="height: 29px; background: #D2E0F2; overflow: hidden">
+        <div id="southLayout" region="south" split="true" style="height: 29px; background: #D2E0F2; overflow: hidden">
             <div class="footer">版权所有：成都阿美科技有限公司</div>
         </div>
         <!-- 菜单 -->
-        <div region="west" hide="true" split="true" title="导航菜单" style="width:180px;" id="west" data-options="plain:true,iconCls:'icon-tabicons75'">
+        <div id="westLayout" region="west" hide="true" split="true" title="导航菜单" style="width:180px;" id="west" data-options="plain:true,iconCls:'icon-tabicons75'">
             <div class="easyui-accordion" fit="true" border="false">
     <!-- 循环菜单 -->
     <?php if(is_array($rootTree)): $k = 0; $__LIST__ = $rootTree;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($k % 2 );++$k;?><script language="javascript">
@@ -157,7 +171,7 @@
 </div>
         </div>
         <!-- 右侧内容 -->
-        <div id="mainPanle" region="center" style="background: #eee; overflow-y:hidden">
+        <div id="centerLayout" region="center" style="background: #eee; overflow-y:hidden">
             <div id="tabs" class="easyui-tabs"  fit="true" border="false" >
                 <div title="我的桌面" style="overflow:hidden;" id="home" data-options="plain:true,iconCls:'icon-tabicons341'">
                     <div style="margin: 10px 0px 0px 15px;">

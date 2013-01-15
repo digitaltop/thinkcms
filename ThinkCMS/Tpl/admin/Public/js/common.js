@@ -42,11 +42,28 @@ $(function(){
     tabCloseEven();
 })
 
+//控制内容区窗口
+function controlTabsWindow(){
+    if($('#mm-maxval').html() == '最大化'){
+        //var maxHeight = $('#digitaltopSystemLayout').height() - $('#southLayout').height();
+        //var maxWidth = $('#digitaltopSystemLayout').width() - 26;
+        $('#mm-maxwindow').attr('iconCls','icons-tabicons235');
+        $('#digitaltopSystemLayout').layout('collapse','north');
+        $('#digitaltopSystemLayout').layout('collapse','west');
+        $('#mm-maxval').html('还原');
+    }else{
+        $('#mm-maxwindow').attr('iconCls','icons-tabicons36')
+        $('#digitaltopSystemLayout').layout('expand','north');
+        $('#digitaltopSystemLayout').layout('expand','west');
+        $('#mm-maxval').html('最大化');
+    }
+}
 function tabClose(){
     /*双击关闭TAB选项卡*/
     $(".tabs-inner").dblclick(function(){
-        var subtitle = $(this).children("span").text();
-        $('#tabs').tabs('close',subtitle);
+        //var subtitle = $(this).children("span").text();
+        //$('#tabs').tabs('close',subtitle);
+        controlTabsWindow();
     })
 
     $(".tabs-inner").bind('contextmenu',function(e){
@@ -66,22 +83,7 @@ function tabClose(){
 function tabCloseEven(){
     //最大化
     $('#mm-maxwindow').click(function(){
-        if($('#mm-maxval').html() == '最大化'){
-            $('#mm-maxwindow').attr('iconCls','icons-tabicons235');
-            $('#digitaltopSystemLayout').layout('collapse','north');
-            $('#digitaltopSystemLayout').layout('collapse','south');
-            $('#digitaltopSystemLayout').layout('collapse','west');
-            $('#digitaltopSystemLayout').layout('panel', 'center').panel('resize',{
-                height:$('#digitaltopSystemLayout').height()
-            });
-            $('#mm-maxval').html('还原');
-        }else{
-            $('#mm-maxwindow').attr('iconCls','icons-tabicons36')
-            $('#digitaltopSystemLayout').layout('expand','north');
-            $('#digitaltopSystemLayout').layout('expand','south');
-            $('#digitaltopSystemLayout').layout('expand','west');
-            $('#mm-maxval').html('最大化');
-        }
+        controlTabsWindow();
     });
     // 刷新
     $('#mm-tabupdate').click(function() {
@@ -99,13 +101,17 @@ function tabCloseEven(){
     //关闭当前
     $('#mm-tabclose').click(function(){
         var currtab_title = $('#mm').data("currtab");
-        $('#tabs').tabs('close',currtab_title);
+        if(currtab_title!=='我的桌面'){
+            $('#tabs').tabs('close',currtab_title);
+        }
     })
     //全部关闭
     $('#mm-tabcloseall').click(function(){
         $('.tabs-inner span').each(function(i,n){
             var t = $(n).text();
-            $('#tabs').tabs('close',t);
+            if(t!=='我的桌面'){
+                $('#tabs').tabs('close',t);
+            }
         });    
     });
     //关闭除当前之外的TAB
@@ -113,7 +119,7 @@ function tabCloseEven(){
         var currtab_title = $('#mm').data("currtab");
         $('.tabs-inner span').each(function(i,n){
             var t = $(n).text();
-            if(t!=currtab_title)
+            if(t!=currtab_title && t!=='我的桌面')
                 $('#tabs').tabs('close',t);
         });    
     });
@@ -127,7 +133,9 @@ function tabCloseEven(){
         }
         nextall.each(function(i,n){
             var t=$('a:eq(0) span',$(n)).text();
-            $('#tabs').tabs('close',t);
+            if(t!=='我的桌面'){
+                $('#tabs').tabs('close',t);
+            }
         });
         return false;
     });
@@ -140,7 +148,9 @@ function tabCloseEven(){
         }
         prevall.each(function(i,n){
             var t=$('a:eq(0) span',$(n)).text();
-            $('#tabs').tabs('close',t);
+            if(t!=='我的桌面'){
+                $('#tabs').tabs('close',t);
+            }
         });
         return false;
     });

@@ -147,7 +147,7 @@ class UploadFile {//类定义开始
      * @param $base64Field
      * @return mixed
      */
-    private function base64ToImage($base64Field, $savePath) {
+    private function base64ToImage($base64Field, $savePath, $mutli = true) {
         $img = base64_decode($_POST[$base64Field]);
         $file = array();
         $filename = time() . rand(1, 10000) . '.png';
@@ -162,7 +162,9 @@ class UploadFile {//类定义开始
             $this->error('输入输出错误！');
             return;
         }
-        return $file;
+        ($mutli) ? $fileInfo[] = $file : $fileInfo = $file;
+        $this->uploadFileInfo = $fileInfo;
+        return true;
     }
 
     /**
@@ -196,7 +198,7 @@ class UploadFile {//类定义开始
         $fileInfo = array();
         $isUpload = false;
         if ($this->base64Data) {
-            return $this->base64ToImage($this->base64Field, $savePath);
+            return $this->base64ToImage($this->base64Field, $savePath, true);
         }
         // 获取上传的文件信息
         // 对$_FILES数组信息处理
@@ -268,7 +270,7 @@ class UploadFile {//类定义开始
             }
         }
         if ($this->base64Data) {
-            return $this->base64ToImage($this->base64Field, $savePath);
+            return $this->base64ToImage($this->base64Field, $savePath, false);
         }
         //过滤无效的上传
         if (!empty($file['name'])) {
